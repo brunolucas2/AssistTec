@@ -22,7 +22,7 @@ A modelagem foi organizada em duas partes: a modelagem conceitual, que apresenta
 - O administrador pode acessar todas as áreas e gerenciar cadastros e usuários. O atendente pode cadastrar clientes, equipamentos e ordens e consultar os atendimentos. O técnico pode consultar as ordens atribuídas a ele e atualizar o andamento e os dados técnicos do serviço.
 - O log guarda uma cópia dos dados da ordem para histórico. Conforme definido nesta modelagem, ele não possui chave estrangeira para a tabela de ordens; a associação pelo identificador é apenas informativa.
 
-### Diagrama conceitual
+### Modelo conceitual
 
 ```mermaid
 erDiagram
@@ -35,6 +35,8 @@ erDiagram
 ```
 
 A linha tracejada entre ordens e log representa uma associação conceitual. O log não terá chave estrangeira para a ordem.
+
+---
 
 ### Modelo lógico
 
@@ -144,6 +146,8 @@ erDiagram
         string observacoes
     }
 ```
+
+---
 
 ### Modelo físico
 
