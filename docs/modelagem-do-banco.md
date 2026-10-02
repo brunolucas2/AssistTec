@@ -1,22 +1,3 @@
-# Sistema Web para Assistência Técnica
-
-**Status:** Em desenvolvimento  
-**Tecnologias previstas:** PHP, JavaScript, HTML, CSS e MySQL
-
-## Descrição do Problema
-
-A empresa de assistência técnica de informática ainda organiza boa parte do trabalho manualmente. Com informações espalhadas e sem um controle centralizado, fica mais difícil acompanhar os clientes, os equipamentos recebidos e os serviços de manutenção em andamento.
-
-Isso pode causar problemas no dia a dia: dados importantes podem ser esquecidos ou anotados incorretamente, equipamentos podem se misturar, e a equipe pode perder tempo procurando informações ou tentando descobrir em que etapa está cada serviço. Também fica mais difícil consultar o histórico de atendimentos, informar o cliente sobre o andamento do conserto e evitar atrasos ou retrabalho.
-
-Além disso, sem controle de acesso, pessoas que não deveriam consultar ou alterar certas informações podem acabar tendo acesso a elas. Isso pode comprometer a privacidade dos clientes e dificultar a identificação de quem fez cada alteração.
-
-## Solução
-
-O sistema web está sendo desenvolvido para centralizar as informações dos clientes, equipamentos e serviços de manutenção. Com os dados organizados em um só lugar, ficará mais fácil consultar o histórico, acompanhar cada serviço e reduzir erros e retrabalho.
-
-O sistema também terá controle de acesso, para que cada usuário tenha permissões adequadas às suas atividades.
-
 ## Modelagem do Banco de Dados
 
 A modelagem foi organizada em duas partes: a modelagem conceitual, que apresenta as entidades e seus relacionamentos, e a modelagem lógica, que detalha os atributos e as chaves previstas para cada tabela.
