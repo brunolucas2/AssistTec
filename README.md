@@ -1,4 +1,7 @@
-# Sistema Web para Assistência Técnica `Em Desenvolvimento`
+# Sistema Web para Assistência Técnica
+`Em Desenvolvimento`
+
+---
 
 Projeto de um sistema web com operações de cadastro, consulta, edição e exclusão de dados (CRUD).
 
