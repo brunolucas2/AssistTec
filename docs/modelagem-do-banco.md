@@ -145,7 +145,7 @@ erDiagram
     }
 ```
 
-### Modelo lógico
+### Modelo físico
 
 ```sql
     create database web_system_assistencia_tecnica;
