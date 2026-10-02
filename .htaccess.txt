@@ -1,0 +1,10 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Bloqueia acesso direto às pastas internas
+RewriteRule ^src(?:/|$) - [F,L]
+RewriteRule ^src(?:/|$) - [F,L]
+
+# Evita reescrever arquivos que já estão em public
+RewriteCond %{REQUEST_URI} !/public/
