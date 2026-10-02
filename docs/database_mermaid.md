@@ -60,7 +60,6 @@ erDiagram
         string email UK
         string cpf UK
         string telefone
-        string telefone_secundario
         string logradouro
         string numero
         string bairro
