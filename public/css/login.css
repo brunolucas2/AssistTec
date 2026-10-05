@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #08111f;
+    color: #e5e7eb;
+    font-family: Arial, sans-serif;
+}
+
+/* Grade e linhas geométricas discretas */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(#60a5fa0a 1px, transparent 1px),
+        linear-gradient(90deg, #60a5fa0a 1px, transparent 1px),
+        linear-gradient(135deg, transparent 49.8%, #3b82f612 50%, transparent 50.2%);
+    background-size: 48px 48px, 48px 48px, 160px 160px;
+}
+
+/* Forma geométrica discreta no canto */
+body::after {
+    content: "";
+    position: fixed;
+    z-index: 0;
+    width: 220px;
+    height: 220px;
+    right: -150px;
+    bottom: -130px;
+    border: 1px solid #3b82f633;
+    border-radius: 32px;
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+.login {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 32px);
+    max-width: 380px;
+    padding: 32px;
+    background: #111c30;
+    border: 1px solid #233451;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px #0006;
+}
+
+/* Logo AssisTec */
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.brand-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.brand-name {
+    color: #f1f5f9;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.brand-name span {
+    color: #60a5fa;
+}
+
+h1 {
+    margin: 0 0 8px;
+    color: #60a5fa;
+}
+
+p {
+    margin: 0 0 24px;
+    color: #9ca3af;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    margin-top: 8px;
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    background: #0b1628;
+    color: #e5e7eb;
+    font-size: 15px;
+}
+
+input::placeholder {
+    color: #8290a6;
+}
+
+input:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+    border-color: #60a5fa;
+}
+
+button {
+    margin-top: 14px;
+    padding: 13px;
+    border: 0;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+button:focus-visible {
+    outline: 2px solid #93c5fd;
+    outline-offset: 3px;
+}
