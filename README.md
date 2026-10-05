@@ -1,4 +1,4 @@
-# Sistema Web para Assistência Técnica
+# AssistTec — Sistema de Gestão para Assistência Técnica.
 `Em Desenvolvimento`
 
 ---
