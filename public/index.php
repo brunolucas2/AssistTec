@@ -38,8 +38,15 @@ if ($usuario !== null) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar | AssisTec</title>
+    <meta name="description" content="Acesse sua conta no sistema AssisTec.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <meta name="theme-color" content="#08111f">
+    <meta name="color-scheme" content="dark">
+
     <link rel="stylesheet" href="./css/login.css">
-    <title>Login | AssisTec</title>
 </head>
 
 <body>
