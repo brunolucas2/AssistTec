@@ -7,7 +7,7 @@ $authSQL = [
     "
 ];
 
-$atendenteSQL = [
+$clienteSQL = [
     "cadastrarCliente" => "
         INSERT INTO clientes 
         (

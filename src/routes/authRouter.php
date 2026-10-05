@@ -15,7 +15,7 @@ if (!isset($_POST["email"], $_POST["senha"])) {
     exit("Faltou e-mail ou senha no envio");
 }
 
-require_once dirname(__DIR__) . "/controllers/authController.php";
+require_once dirname(__DIR__) . "/controllers/AuthController.php";
 
 $verificarUsuario = auth([
     "email" => $_POST["email"],
