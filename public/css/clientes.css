@@ -1,0 +1,144 @@
+.client-panel {
+    padding: 24px;
+    background: #111c30;
+    border: 1px solid #233451;
+    border-radius: 12px;
+}
+
+.client-heading h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.client-heading p,
+.form-hint {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.client-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #233451;
+}
+
+.client-tab {
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: #aab8cc;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.client-tab:hover {
+    color: #e5e7eb;
+    background: #172a46;
+}
+
+.client-tab.active {
+    border-color: #315b94;
+    background: #172a46;
+    color: #93c5fd;
+}
+
+.client-template[hidden] {
+    display: none;
+}
+
+.client-template h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.form-hint {
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.form-field {
+    display: grid;
+    gap: 8px;
+}
+
+.form-field label {
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    background: #0b1628;
+    color: #e5e7eb;
+    font: inherit;
+}
+
+.form-field input::placeholder {
+    color: #8290a6;
+}
+
+.form-field input:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+    border-color: #60a5fa;
+}
+
+.form-submit {
+    margin-top: 24px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-submit:hover {
+    background: #1d4ed8;
+}
+
+.danger-button {
+    background: #b42332;
+}
+
+.danger-button:hover {
+    background: #951b28;
+}
+
+.delete-field {
+    max-width: 420px;
+}
+
+@media (max-width: 600px) {
+    .client-panel {
+        padding: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .client-tabs {
+        overflow-x: auto;
+    }
+
+    .client-tab {
+        flex: 1;
+        padding: 10px;
+    }
+}

@@ -1,3 +1,8 @@
+<?php
+require_once dirname(__DIR__) . "/utils/verificarNivel.php";
+verificarNivel("administrador");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

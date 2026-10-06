@@ -5,11 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit("Método não permitido");
 }
 
-if (($_GET["rota"] ?? "") !== "auth") {
-    http_response_code(404);
-    exit("Rota não encontrada");
-}
-
 if (!isset($_POST["email"], $_POST["senha"])) {
     http_response_code(400);
     exit("Faltou e-mail ou senha no envio");
@@ -36,4 +31,3 @@ $_SESSION["usuario"] = [
     "email" => $_POST["email"],
     "nivel" => $verificarUsuario
 ];
-

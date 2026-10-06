@@ -1,23 +1,10 @@
 <?php
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+$nivelDapagina = "atendente";
 
-if (
-    !isset($_SESSION["usuario"]["email"]) ||
-    !isset($_SESSION["usuario"]["nivel"])
-) {
-    header("Location: ../login.php");
-    exit;
-}
+require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 
-$nivel = $_SESSION["usuario"]["nivel"];
 
-if ($nivel !== "atendente" && $nivel !== "administrador") {
-    http_response_code(403);
-    exit("Acesso negado");
-}
 
 $email = htmlspecialchars(
     $_SESSION["usuario"]["email"],
@@ -28,7 +15,6 @@ $email = htmlspecialchars(
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +26,6 @@ $email = htmlspecialchars(
     <link rel="stylesheet" href="../css/atendente.css">
     <script src="../js/atendente.js" defer></script>
 </head>
-
 <body>
     <aside class="sidebar" id="sidebar">
         <a class="brand" href="index.php">
@@ -71,7 +56,8 @@ $email = htmlspecialchars(
                 id="menuToggle"
                 type="button"
                 aria-label="Abrir menu"
-                aria-expanded="false">
+                aria-expanded="false"
+            >
                 ☰
             </button>
 
@@ -129,5 +115,4 @@ $email = htmlspecialchars(
         </section>
     </main>
 </body>
-
 </html>

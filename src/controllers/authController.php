@@ -1,7 +1,7 @@
 <?php
 
-include "./database/querys.php";
-include "./database/db_connection.php";
+require_once dirname(__DIR__) . "/database/querys.php";
+require_once dirname(__DIR__) . "/database/db_connection.php";
 
 function auth(array $usuario)
 {
@@ -12,15 +12,15 @@ function auth(array $usuario)
         "email" => $usuario["email"]
     ]);
 
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    $usuarioBanco = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($usuario === false) {
+    if ($usuarioBanco === false) {
         return 404;
     }
 
-    if (password_verify($usuario["senha"], $usuario["senha"])) {
-        return $usuario["nivel"];
-    } else {
-        return 401;
+    if (password_verify($usuario["senha"], $usuarioBanco["senha"])) {
+        return $usuarioBanco["nivel"];
     }
+
+    return 401;
 }
