@@ -96,5 +96,9 @@ $clienteSQL = [
             cep
         FROM clientes
         WHERE cpf = :cpf;
+    ",
+    "deletarCliente" => "
+        DELETE FROM clientes
+        where cpf = :cpf;
     "
 ];

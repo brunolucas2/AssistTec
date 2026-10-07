@@ -71,3 +71,19 @@ function buscarCliente(string $cpfCliente): array
 
     return $cliente;
 }
+
+function deletarCliente(string $cpfCliente): bool
+{
+    global $pdo, $clienteSQL;
+
+    try {
+        $stmt = $pdo->prepare($clienteSQL["deletarCliente"]);
+        $stmt->execute([
+            ":cpf" => $cpfCliente
+        ]);
+
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
