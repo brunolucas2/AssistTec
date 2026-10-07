@@ -34,26 +34,6 @@ $clienteSQL = [
             :cep
         )
     ",
-    "cadastrarEquipamento" => "
-        INSERT INTO equipamentos
-        (
-            id_cliente,
-            tipo,
-            marca,
-            numero_de_serie,
-            patrimonio,
-            descricao,
-            sistema_operacional,
-            senha_de_acesso
-        ) VALUES (
-            :id_cliente,
-            :tipo,
-            :marca,
-            :patrimonio,
-            :sistema_operacional,
-            :senha_de_acesso
-        )
-    ",
     "atualizarCliente" => "
         UPDATE clientes
         SET
@@ -149,7 +129,7 @@ $equipamentoSQL = [
             senha_de_acesso
         FROM equipamentos;
     ",
-    "buscarEquipamenmto" => "
+    "buscarEquipamento" => "
         SELECT
             id_equipamento,
             id_cliente,

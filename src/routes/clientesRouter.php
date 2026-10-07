@@ -2,46 +2,52 @@
 require_once dirname(__DIR__, 2) . "/src/controllers/ClientesController.php";
 require_once dirname(__DIR__) . "/helper/validarDados.php";
 
-$clientesPage = "../../public/atendente/clientes.php";
-
-if (
-    $_SERVER["REQUEST_METHOD"] !== "POST" &&
-    $_SERVER["REQUEST_METHOD"] !== "GET"
-) {
-    http_response_code(405);
-    exit("Método não permitido");
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
 
+$clientesPage = "../../public/atendente/clientes.php";
+
 $rota = $_GET["rota"] ?? "";
-$partes = explode("/", $rota, 2);
 
-$endpoint = $partes[0] ?? "";
-$acao = $partes[1] ?? "";
+$metodosPermitidos = [
+    "cliente/buscarClientes" => "GET",
+    "cliente/buscarCliente"  => "GET",
+    "cliente/cadastrar"      => "POST",
+    "cliente/atualizar"      => "POST",
+    "cliente/deletar"        => "POST"
+];
 
-if ($endpoint === "cliente") {
-    switch ($acao) {
-        case "buscarClientes":
-            rota_buscarClientes();
-            break;
-        case "buscarCliente":
-            rota_buscarCliente();
-            break;
-        case "cadastrar":
-            rota_cadastrarCliente();
-            break;
-        case "atualizar":
-            rota_atualizarCliente();
-            break;
-        case "deletar":
-            rota_deletarCliente();
-            break;
-        default:
-            http_response_code(404);
-            exit("Ação não encontrada!");
-    }
-} else {
+if (!isset($metodosPermitidos[$rota])) {
     http_response_code(404);
-    exit("Endpoint não encontrado");
+    exit("Rota não encontrada.");
+}
+
+if ($_SERVER["REQUEST_METHOD"] !== $metodosPermitidos[$rota]) {
+    http_response_code(405);
+    exit("Método não permitido.");
+}
+
+switch ($rota) {
+    case "cliente/buscarClientes":
+        rota_buscarClientes();
+        break;
+
+    case "cliente/buscarCliente":
+        rota_buscarCliente();
+        break;
+
+    case "cliente/cadastrar":
+        rota_cadastrarCliente();
+        break;
+
+    case "cliente/atualizar":
+        rota_atualizarCliente();
+        break;
+
+    case "cliente/deletar":
+        rota_deletarCliente();
+        break;
 }
 
 function rota_cadastrarCliente(): void
@@ -109,7 +115,7 @@ function rota_atualizarCliente(): void
             "mensagem" => "Não foi possível atualizar o cliente."
         ];
         http_response_code(500);
-        exit("Erro ao cadastrar: " . $e->getMessage());
+        exit("Erro ao Atualizar: " . $e->getMessage());
     }
 
     header("Location: $clientesPage");
@@ -148,7 +154,7 @@ function rota_buscarCliente(): void
     }
 
     try {
-        $cliente = buscarCliente($_GET["cpf"]);
+        $cliente = buscarCliente($cpf);
 
         echo json_encode($cliente, JSON_UNESCAPED_UNICODE);
         exit;
@@ -183,7 +189,7 @@ function rota_deletarCliente(): void
 
         http_response_code(404);
         echo json_encode(['erro' => 'Cliente não encontrado.']);
-    } catch (PDOException $e) {
+    } catch (PDOException) {
         http_response_code(500);
         echo json_encode(['erro' => 'Não foi possível excluir o cliente.']);
     }
