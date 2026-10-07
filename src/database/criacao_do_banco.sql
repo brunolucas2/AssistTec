@@ -5,8 +5,8 @@ use web_system_assistencia_tecnica;
 CREATE TABLE clientes (
     id_cliente INT AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) NOT NULL,
-    email VARCHAR(150) NOT NULL,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    email VARCHAR(150) NOT NULL UNIQUE,
     telefone VARCHAR(16) NOT NULL,
     logradouro VARCHAR(100) NOT NULL,
     numero VARCHAR(10) NOT NULL,

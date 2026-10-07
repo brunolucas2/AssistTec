@@ -2,7 +2,7 @@
 require_once dirname(__DIR__) . "/database/querys.php";
 require_once dirname(__DIR__) . "/database/db_connection.php";
 
-function cadastrarCliente(array $cliente)
+function cadastrarCliente(array $cliente): void
 {
     global $pdo, $clienteSQL;
 
@@ -20,8 +20,6 @@ function cadastrarCliente(array $cliente)
         ":estado" => $cliente["estado"],
         ":cep" => $cliente["cep"]
     ]);
-
-    return $pdo->lastInsertId();
 }
 
 function atualizarCliente(array $cliente): bool
@@ -30,7 +28,8 @@ function atualizarCliente(array $cliente): bool
 
     $stmt = $pdo->prepare($clienteSQL["atualizarCliente"]);
 
-    return $stmt->execute([
+    try {
+        $stmt->execute([
         ":nome" => $cliente["nome"] ?? "",
         ":cpf_atual" => $cliente["cpf_atual"],
         ":email" => $cliente["email"] ?? "",
@@ -42,6 +41,10 @@ function atualizarCliente(array $cliente): bool
         ":estado" => $cliente["estado"] ?? "",
         ":cep" => $cliente["cep"] ?? ""
     ]);
+    return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        return false;
+    }
 }
 
 function buscarClientes(): array
@@ -52,7 +55,7 @@ function buscarClientes(): array
 
     $query->execute();
 
-    $clientes = $query->fetch(PDO::FETCH_ASSOC);
+    $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
 
     return $clientes;
 }

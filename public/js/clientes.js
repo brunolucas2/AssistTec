@@ -1,96 +1,115 @@
-const filtros = document.querySelector("#form-filtros-clientes");
-const lista = document.querySelector("#lista-clientes");
-const modelo = document.querySelector("#template-linha-cliente");
-const mensagem = document.querySelector("#clientes-status");
-let consulta;
+const formularioBusca = document.querySelector("#form-filtros-clientes");
+const listaClientes = document.querySelector("#lista-clientes");
+const statusClientes = document.querySelector("#clientes-status");
+const modeloLinha = document.querySelector("#template-linha-cliente");
 
-function mostrar(secao) {
-  document.querySelectorAll(".client-template").forEach(elemento => {
-    elemento.hidden = elemento.id !== `template-${secao}`;
-  });
-
-  document.querySelectorAll(".client-tabs [data-tab]").forEach(botao => {
-    botao.classList.toggle("active", botao.dataset.tab === secao);
-  });
-}
-
-document.querySelectorAll("[data-tab]").forEach(botao => {
-  botao.addEventListener("click", () => mostrar(botao.dataset.tab));
-});
-
-function selecionar(cliente, acao) {
-  const form = document.querySelector(`#form-${acao}-cliente`);
-  form.reset();
-
-  if (acao === "atualizar") {
-    for (const campo of form.querySelectorAll("input[name]")) {
-      campo.value = cliente[campo.name === "cpf_atual" ? "cpf" : campo.name] ?? "";
-    }
-  } else {
-    form.elements.namedItem("cpf").value = cliente.cpf;
-    document.querySelector("#nome-cliente-deletar").textContent = cliente.nome;
-  }
-
-  mostrar(acao);
-}
+let clientes = [];
 
 async function carregarClientes() {
-  consulta?.abort();
-  const atual = new AbortController();
-  consulta = atual;
-  mensagem.textContent = "Carregando clientes...";
+    try {
+        const resposta = await fetch(formularioBusca.action, {
+            method: "GET"
+        });
 
-  try {
-    const parametros = new URLSearchParams(new FormData(filtros));
-    const resposta = await fetch(`${filtros.action}?${parametros}`, {
-      signal: atual.signal,
-      headers: { Accept: "application/json" }
-    });
+        if (!resposta.ok) {
+            throw new Error("Falha ao buscar clientes.");
+        }
 
-    if (!resposta.ok) throw new Error(`Erro ao carregar: HTTP ${resposta.status}`);
-
-    const clientes = await resposta.json();
-    if (!Array.isArray(clientes)) throw new Error("A rota deve retornar um array JSON.");
-
-    const linhas = document.createDocumentFragment();
-
-    for (const cliente of clientes) {
-      const linha = modelo.content.cloneNode(true);
-
-      linha.querySelectorAll("[data-campo]").forEach(celula => {
-        celula.textContent = cliente[celula.dataset.campo] ?? "";
-      });
-
-      linha.querySelectorAll("[data-acao]").forEach(botao => {
-        botao.addEventListener("click", () => selecionar(cliente, botao.dataset.acao));
-      });
-
-      linhas.append(linha);
+        clientes = await resposta.json();
+        mostrarClientes(clientes);
+    } catch (erro) {
+        console.error(erro);
+        statusClientes.textContent = "Não foi possível carregar os clientes.";
     }
-
-    lista.replaceChildren(linhas);
-    mensagem.textContent = clientes.length
-      ? `${clientes.length} cliente(s) encontrado(s).`
-      : "Nenhum cliente encontrado.";
-  } catch (erro) {
-    if (erro.name === "AbortError") return;
-    lista.replaceChildren();
-    mensagem.textContent = erro.message;
-  }
 }
 
-filtros.addEventListener("submit", evento => {
-  evento.preventDefault();
-  carregarClientes();
+function mostrarClientes(clientesExibidos) {
+    listaClientes.innerHTML = "";
+
+    clientesExibidos.forEach(cliente => {
+        const linha = modeloLinha.content.cloneNode(true);
+
+        linha.querySelector('[data-campo="id_cliente"]').textContent = cliente.id_cliente;
+        linha.querySelector('[data-campo="nome"]').textContent = cliente.nome;
+        linha.querySelector('[data-campo="cpf"]').textContent = cliente.cpf;
+        linha.querySelector('[data-campo="email"]').textContent = cliente.email;
+        linha.querySelector('[data-campo="telefone"]').textContent = cliente.telefone;
+        linha.querySelector('[data-campo="status"]').textContent = cliente.status;
+
+        listaClientes.appendChild(linha);
+    });
+
+    statusClientes.textContent = clientesExibidos.length
+        ? `${clientesExibidos.length} cliente(s) encontrado(s).`
+        : "Nenhum cliente encontrado.";
+}
+
+formularioBusca.addEventListener("submit", evento => {
+    evento.preventDefault();
+
+    const dados = new FormData(formularioBusca);
+    const nome = (dados.get("nome") ?? "").trim().toLowerCase();
+    const cpf = (dados.get("cpf") ?? "").trim();
+    const cidade = (dados.get("cidade") ?? "").trim().toLowerCase();
+    const status = dados.get("status") ?? "";
+
+    const filtrados = clientes.filter(cliente =>
+        (cliente.nome ?? "").toLowerCase().includes(nome) &&
+        (cliente.cpf ?? "").includes(cpf) &&
+        (cliente.cidade ?? "").toLowerCase().includes(cidade) &&
+        (!status || cliente.status === status)
+    );
+
+    mostrarClientes(filtrados);
 });
 
-filtros.addEventListener("reset", () => {
-  setTimeout(carregarClientes, 0);
+formularioBusca.addEventListener("reset", () => {
+    setTimeout(() => mostrarClientes(clientes), 0);
 });
 
-document.querySelector("#menuToggle").addEventListener("click", evento => {
-  const aberto = document.querySelector("#sidebar").classList.toggle("open");
-  evento.currentTarget.setAttribute("aria-expanded", String(aberto));
+listaClientes.addEventListener("click", evento => {
+    const botao = evento.target.closest("[data-acao]");
+    if (!botao) return;
+
+    const linha = botao.closest("tr");
+    const cpf = linha.querySelector('[data-campo="cpf"]').textContent;
+    const cliente = clientes.find(item => item.cpf === cpf);
+
+    if (!cliente) return;
+
+    document.querySelectorAll(".client-template").forEach(template => {
+        template.hidden = true;
+    });
+
+    if (botao.dataset.acao === "atualizar") {
+        const formulario = document.querySelector("#form-atualizar-cliente");
+
+        document.querySelector("#cpf-cliente-atualizar").textContent = cliente.cpf;
+        formulario.elements.namedItem("cpf_atual").value = cliente.cpf;
+
+        [
+            "nome",
+            "email",
+            "telefone",
+            "logradouro",
+            "numero",
+            "bairro",
+            "cidade",
+            "estado",
+            "cep"
+        ].forEach(campo => {
+            const input = formulario.elements.namedItem(campo);
+            if (input) input.value = cliente[campo] ?? "";
+        });
+
+        document.querySelector("#template-atualizar").hidden = false;
+    }
+
+    if (botao.dataset.acao === "deletar") {
+        document.querySelector('#form-deletar-cliente [name="cpf"]').value = cliente.cpf;
+        document.querySelector("#nome-cliente-deletar").textContent = cliente.nome;
+        document.querySelector("#template-deletar").hidden = false;
+    }
 });
 
 carregarClientes();

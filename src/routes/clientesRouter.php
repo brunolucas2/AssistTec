@@ -4,7 +4,10 @@ require_once dirname(__DIR__) . "/helper/validarDados.php";
 
 $clientesPage = "../../public/atendente/clientes.php";
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+if (
+    $_SERVER["REQUEST_METHOD"] !== "POST" &&
+    $_SERVER["REQUEST_METHOD"] !== "GET"
+) {
     http_response_code(405);
     exit("Método não permitido");
 }
@@ -88,7 +91,7 @@ function rota_atualizarCliente(): void
     global $clientesPage;
 
     $campos = [
-        "cpf"
+        "cpf_atual"
     ];
 
     validador($campos, $_POST, $clientesPage);
@@ -105,7 +108,6 @@ function rota_atualizarCliente(): void
             "tipo" => "erro",
             "mensagem" => "Não foi possível atualizar o cliente."
         ];
-
         http_response_code(500);
         exit("Erro ao cadastrar: " . $e->getMessage());
     }
@@ -137,7 +139,7 @@ function rota_buscarCliente(): void
 {
     header('Content-Type: application/json; charset=utf-8');
 
-    $cpf = $_POST['cpf'] ?? '';
+    $cpf = $_GET['cpf'] ?? '';
 
     if ($cpf === '') {
         http_response_code(400);
@@ -146,7 +148,7 @@ function rota_buscarCliente(): void
     }
 
     try {
-        $cliente = buscarCliente($_POST["cpf"]);
+        $cliente = buscarCliente($_GET["cpf"]);
 
         echo json_encode($cliente, JSON_UNESCAPED_UNICODE);
         exit;
