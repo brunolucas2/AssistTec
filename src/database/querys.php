@@ -67,5 +67,34 @@ $clienteSQL = [
             estado = COALESCE(:estado, estado),
             cep = COALESCE(:cep, cep)
         WHERE cpf = :cpf_atual
+    ",
+    "buscarClientes" => "
+        SELECT 
+            nome,
+            cpf,
+            email,
+            telefone,
+            logradouro,
+            numero,
+            bairro,
+            cidade,
+            estado,
+            cep
+        FROM clientes;
+    ",
+    "buscarCliente" => "
+        SELECT 
+            nome,
+            cpf,
+            email,
+            telefone,
+            logradouro,
+            numero,
+            bairro,
+            cidade,
+            estado,
+            cep
+        FROM clientes
+        WHERE cpf = :cpf;
     "
 ];

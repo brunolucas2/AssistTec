@@ -43,3 +43,31 @@ function atualizarCliente(array $cliente): bool
         ":cep" => $cliente["cep"] ?? ""
     ]);
 }
+
+function buscarClientes(): array
+{
+    global $pdo, $clienteSQL;
+
+    $query = $pdo->prepare($clienteSQL["buscarClientes"]);
+
+    $query->execute();
+
+    $clientes = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $clientes;
+}
+
+function buscarCliente(string $cpfCliente): array
+{
+    global $pdo, $clienteSQL;
+
+    $stmt = $pdo->prepare($clienteSQL["buscarCliente"]);
+
+    $stmt->execute([
+        ":cpf" => $cpfCliente
+    ]);
+
+    $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $cliente;
+}
