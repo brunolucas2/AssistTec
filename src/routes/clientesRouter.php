@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__DIR__, 2) . "/src/controllers/ClientesController.php";
+require_once dirname(__DIR__) . "/helper/validarDados.php";
+
+$clientesPage = "../../public/atendente/clientes.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -14,11 +18,14 @@ $acao = $partes[1] ?? "";
 if ($endpoint === "cliente") {
     switch ($acao) {
         case "cadastrar":
-                rota_cadastrarCliente();
-        case "atualizar":
-            // Chame aqui a função de atualização
+            rota_cadastrarCliente();
             break;
-
+        case "atualizar":
+            rota_atualizarCliente();
+            break;
+        case "deletar":
+            rota_deletarCliente();
+            break;
         default:
             http_response_code(404);
             exit("Ação não encontrada!");
@@ -28,16 +35,15 @@ if ($endpoint === "cliente") {
     exit("Endpoint não encontrado");
 }
 
-include dirname(__DIR__, 2) . "/src/controllers/ClientesController.php";
-
 function rota_cadastrarCliente(): void
 {
-    include dirname(__DIR__) . "/helper/validarDados.php";
+    global $clientesPage;
 
     $campos = [
         "nome",
         "cpf",
         "email",
+        "telefone",
         "logradouro",
         "numero",
         "bairro",
@@ -46,32 +52,60 @@ function rota_cadastrarCliente(): void
         "cep"
     ];
 
-    if (!validador($campos, $_POST)) {
-        $_SESSION["flash"] = [
-            "tipo" => "erro",
-            "texto" => "Preencha todos os campos obrigatórios."
-        ];
-
-        header("Location: atendente/clientes.php");
-        exit;
-    }
+    validador($campos, $_POST, $clientesPage);
 
     try {
         cadastrarCliente($_POST);
 
         $_SESSION["flash"] = [
             "tipo" => "sucesso",
-            "texto" => "Cliente cadastrado com sucesso."
+            "mensagem" => "Cliente cadastrado com sucesso."
         ];
     } catch (PDOException $e) {
         error_log($e->getMessage());
 
         $_SESSION["flash"] = [
             "tipo" => "erro",
-            "texto" => "Não foi possível cadastrar o cliente."
+            "mensagem" => "Não foi possível cadastrar o cliente."
         ];
+
+        http_response_code(500);
+        exit("Erro ao cadastrar: " . $e->getMessage());
     }
 
-    header("Location: atendente/clientes.php");
+    header("Location: $clientesPage");
     exit;
 }
+
+function rota_atualizarCliente(): void
+{
+    global $clientesPage;
+
+    $campos = [
+        "cpf"
+    ];
+
+    validador($campos, $_POST, $clientesPage);
+
+    try {
+        atualizarCliente($_POST);
+
+        $_SESSION["flash"] = [
+            "tipo" => "sucesso",
+            "mensagem" => "Cliente atualizado com sucesso"
+        ];
+    } catch (PDOException $e) {
+        $_SESSION["flash"] = [
+            "tipo" => "erro",
+            "mensagem" => "Não foi possível atualizar o cliente."
+        ];
+
+        http_response_code(500);
+        exit("Erro ao cadastrar: " . $e->getMessage());
+    }
+
+    header("Location: $clientesPage");
+    exit;
+}
+
+function rota_deletarCliente(): void {}

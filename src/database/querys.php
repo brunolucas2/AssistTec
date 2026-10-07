@@ -14,6 +14,7 @@ $clienteSQL = [
             nome,
             cpf,
             email,
+            telefone,
             logradouro,
             numero,
             bairro,
@@ -24,6 +25,7 @@ $clienteSQL = [
             :nome,
             :cpf,
             :email,
+            :telefone,
             :logradouro,
             :numero,
             :bairro,
@@ -51,5 +53,19 @@ $clienteSQL = [
             :sistema_operacional,
             :senha_de_acesso
         )
+    ",
+    "atualizarCliente" => "
+        UPDATE clientes
+        SET
+            nome = COALESCE(:nome, nome),
+            email = COALESCE(:email, email),
+            telefone = COALESCE(:telefone, telefone),
+            logradouro = COALESCE(:logradouro, logradouro),
+            numero = COALESCE(:numero, numero),
+            bairro = COALESCE(:bairro, bairro),
+            cidade = COALESCE(:cidade, cidade),
+            estado = COALESCE(:estado, estado),
+            cep = COALESCE(:cep, cep)
+        WHERE cpf = :cpf_atual
     "
 ];

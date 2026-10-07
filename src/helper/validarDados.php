@@ -1,6 +1,6 @@
 <?php
 
-function validador(array $campos, array $dados): bool
+function validador(array $campos, array $dados, string $destino): void
 {
     foreach ($campos as $campo) {
         if (
@@ -8,8 +8,17 @@ function validador(array $campos, array $dados): bool
             !is_string($dados[$campo]) ||
             trim($dados[$campo]) === ""
         ) {
-            return false;
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
+
+            $_SESSION["flash"] = [
+                "tipo" => "erro",
+                "texto" => "Preencha todos os campos obrigatórios."
+            ];
+
+            header("Location: " . $destino);
+            exit;
         }
     }
-    return true;
 }

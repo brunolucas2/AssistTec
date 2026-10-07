@@ -1,13 +1,13 @@
 <?php
-    session_start();
+session_start();
 
-    $user = $_SESSION["usuario"] ?? null;
+$user = $_SESSION["usuario"] ?? null;
 
-    if ($user != null) {
-        header("Location: index.php");
-        exit;
-    }
-    
+if ($user != null) {
+    header("Location: index.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     require_once dirname(__DIR__) . "/src/routes/authRouter.php";
     header("Location: index.php");
