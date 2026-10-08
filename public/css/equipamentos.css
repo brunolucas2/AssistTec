@@ -1,9 +1,5 @@
-.conteudo,
 .painel-clientes {
     min-width: 0;
-}
-
-.painel-clientes {
     padding: 24px;
     background: #111c30;
     border: 1px solid #233451;
@@ -66,6 +62,30 @@
     background: #951b28;
 }
 
+#filtros-equipamentos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+#filtros-equipamentos input {
+    box-sizing: border-box;
+    min-width: 130px;
+    padding: 9px;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    background: #0b1628;
+    color: #e5e7eb;
+    font: inherit;
+}
+
+#filtros-equipamentos input:focus,
+.campo-form input:focus {
+    outline: 2px solid #60a5fa;
+}
+
 .campos-form {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -81,8 +101,7 @@
     font-size: 14px;
 }
 
-.campo-form input,
-.campo-form select {
+.campo-form input {
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
@@ -94,15 +113,8 @@
     font: inherit;
 }
 
-.campo-form input:focus,
-.campo-form select:focus,
-#form-filtros-clientes input:focus,
-#form-filtros-clientes select:focus {
-    outline: 2px solid #60a5fa;
-}
-
 .acoes-form,
-.client-template form>.botao-form {
+.client-template form > .botao-form {
     margin-top: 16px;
 }
 
@@ -110,28 +122,7 @@
     flex-wrap: wrap;
 }
 
-#form-filtros-clientes {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-#form-filtros-clientes input,
-#form-filtros-clientes select {
-    box-sizing: border-box;
-    min-width: 130px;
-    padding: 9px;
-    border: 1px solid #334766;
-    border-radius: 7px;
-    background: #0b1628;
-    color: #e5e7eb;
-    font: inherit;
-}
-
-.dica-form,
-#clientes-status {
+#equipamentos-status {
     margin: 16px 0;
     color: #9ca3af;
     font-size: 14px;
@@ -168,10 +159,6 @@
     min-width: 180px;
 }
 
-.campo-excluir {
-    max-width: 420px;
-}
-
 @media (max-width: 600px) {
     .painel-clientes {
         padding: 16px;
@@ -185,8 +172,7 @@
         overflow-x: auto;
     }
 
-    #form-filtros-clientes input,
-    #form-filtros-clientes select {
+    #filtros-equipamentos input {
         width: 100%;
     }
 }

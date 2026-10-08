@@ -16,7 +16,7 @@ a {
     text-decoration: none;
 }
 
-.sidebar {
+.menu-lateral {
     width: 250px;
     min-height: 100vh;
     padding: 24px 16px;
@@ -26,7 +26,7 @@ a {
     border-right: 1px solid #233451;
 }
 
-.brand {
+.marca {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -35,7 +35,7 @@ a {
     font-weight: bold;
 }
 
-.brand-icon {
+.marca-icone {
     width: 38px;
     height: 38px;
     display: grid;
@@ -46,20 +46,20 @@ a {
     font-size: 13px;
 }
 
-.brand-blue {
+.marca-azul {
     color: #60a5fa;
 }
 
-.menu-label,
-.eyebrow,
-.card-label {
+.menu-titulo,
+.subtitulo,
+.card-tipo {
     color: #8290a6;
     font-size: 11px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-.menu-label {
+.menu-titulo {
     margin: 42px 8px 12px;
 }
 
@@ -68,20 +68,20 @@ a {
     gap: 6px;
 }
 
-.menu-link {
+.link-menu {
     padding: 12px;
     border-radius: 7px;
     color: #b8c4d6;
     font-size: 14px;
 }
 
-.menu-link:hover,
-.menu-link.active {
+.link-menu:hover,
+.link-menu.active {
     background: #172a46;
     color: #93c5fd;
 }
 
-.sidebar-bottom {
+.usuario-logado {
     margin-top: auto;
     padding: 14px 8px 0;
     display: grid;
@@ -89,32 +89,31 @@ a {
     border-top: 1px solid #233451;
 }
 
-.user-role {
-    color: #e5e7eb;
+.usuario-cargo {
     font-size: 14px;
     font-weight: bold;
 }
 
-.user-email {
+.usuario-email {
     overflow-wrap: anywhere;
     color: #8290a6;
     font-size: 12px;
 }
 
-.main-content {
+.conteudo {
     width: min(100%, 1200px);
     margin: 0 auto;
     padding: 36px;
 }
 
-.topbar {
+.cabecalho {
     display: flex;
     align-items: center;
     gap: 14px;
     margin-bottom: 32px;
 }
 
-.eyebrow {
+.subtitulo {
     margin: 0 0 8px;
 }
 
@@ -129,7 +128,8 @@ h1 {
     font-size: 28px;
 }
 
-.welcome {
+.boas-vindas,
+.recentes {
     padding: 24px;
     display: flex;
     align-items: center;
@@ -140,20 +140,20 @@ h1 {
     border-radius: 12px;
 }
 
-.welcome h2 {
+.boas-vindas h2 {
     margin-bottom: 8px;
     font-size: 20px;
 }
 
-.welcome p,
-.action-card p,
-.recent-section p {
+.boas-vindas p,
+.atalho p,
+.recentes p {
     margin-bottom: 0;
     color: #9ca3af;
     font-size: 14px;
 }
 
-.primary-button {
+.botao-principal {
     padding: 12px 16px;
     border-radius: 7px;
     background: #2563eb;
@@ -162,18 +162,18 @@ h1 {
     font-weight: bold;
 }
 
-.primary-button:hover {
+.botao-principal:hover {
     background: #1d4ed8;
 }
 
-.cards {
+.atalhos {
     margin: 24px 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
 
-.action-card {
+.atalho {
     position: relative;
     min-height: 160px;
     padding: 22px;
@@ -183,23 +183,24 @@ h1 {
     transition: border-color 0.2s, transform 0.2s;
 }
 
-.action-card:hover {
+.atalho:hover {
     transform: translateY(-2px);
     border-color: #3b82f6;
 }
 
-.card-label {
+.card-tipo {
     display: block;
     margin-bottom: 16px;
     color: #60a5fa;
 }
 
-.action-card h2 {
+.atalho h2,
+.recentes h2 {
     margin-bottom: 8px;
     font-size: 18px;
 }
 
-.card-arrow {
+.seta {
     position: absolute;
     right: 22px;
     bottom: 20px;
@@ -207,28 +208,16 @@ h1 {
     font-size: 20px;
 }
 
-.recent-section {
+.recentes {
     padding: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    background: #111c30;
-    border: 1px solid #233451;
-    border-radius: 12px;
 }
 
-.recent-section h2 {
-    margin-bottom: 8px;
-    font-size: 18px;
-}
-
-.text-link {
+.link-texto {
     color: #60a5fa;
     font-size: 14px;
 }
 
-.menu-toggle {
+.abrir-menu {
     display: none;
     padding: 8px 11px;
     border: 1px solid #334766;
@@ -239,7 +228,7 @@ h1 {
 }
 
 @media (max-width: 760px) {
-    .sidebar {
+    .menu-lateral {
         position: fixed;
         z-index: 2;
         top: 0;
@@ -249,27 +238,27 @@ h1 {
         transition: transform 0.2s;
     }
 
-    .sidebar.open {
+    .menu-lateral.open {
         transform: translateX(0);
     }
 
-    .main-content {
+    .conteudo {
         padding: 24px 18px;
     }
 
-    .menu-toggle {
+    .abrir-menu {
         display: block;
     }
 
-    .welcome,
-    .recent-section {
+    .boas-vindas,
+    .recentes {
         align-items: flex-start;
         flex-direction: column;
     }
 }
 
 @media (max-width: 520px) {
-    .cards {
+    .atalhos {
         grid-template-columns: 1fr;
     }
 

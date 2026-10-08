@@ -50,11 +50,17 @@ $clienteSQL = [
     ",
     "buscarClientes" => "
         SELECT
-            id_cliente, 
+            id_cliente,
             nome,
             cpf,
             email,
             telefone,
+            logradouro,
+            numero,
+            bairro,
+            cidade,
+            estado,
+            cep,
             status
         FROM clientes;
     ",

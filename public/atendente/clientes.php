@@ -1,6 +1,5 @@
 <?php
 $nivelDaPagina = "atendente";
-
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -25,79 +24,80 @@ unset($_SESSION["flash"]);
 </head>
 
 <body>
-    <aside class="sidebar" id="sidebar">
-        <a class="brand" href="index.php">
-            <span class="brand-icon">AT</span>
-            <span>Assis<span class="brand-blue">Tec</span></span>
+    <aside class="menu-lateral" id="sidebar">
+        <a class="marca" href="index.php">
+            <span class="marca-icone">AT</span>
+            <span>Assis<span class="marca-azul">Tec</span></span>
         </a>
 
-        <p class="menu-label">MENU</p>
+        <p class="menu-titulo">MENU</p>
 
         <nav class="menu">
-            <a class="menu-link" href="index.php">Visão geral</a>
-            <a class="menu-link active" href="clientes.php">Clientes</a>
-            <a class="menu-link" href="equipamentos.php">Equipamentos</a>
-            <a class="menu-link" href="ordens.php">Abrir ordem de serviço</a>
-            <a class="menu-link" href="atendimentos.php">Atendimentos</a>
+            <a class="link-menu" href="index.php">Visão geral</a>
+            <a class="link-menu active" href="clientes.php">Clientes</a>
+            <a class="link-menu" href="equipamentos.php">Equipamentos</a>
+            <a class="link-menu" href="ordens.php">Abrir ordem de serviço</a>
+            <a class="link-menu" href="atendimentos.php">Atendimentos</a>
         </nav>
 
-        <div class="sidebar-bottom">
-            <span class="user-role">Atendente</span>
-            <span class="user-email">
-                <?= htmlspecialchars($_SESSION["usuario"]["email"], ENT_QUOTES, "UTF-8") ?>
+        <div class="usuario-logado">
+            <span class="usuario-cargo">Atendente</span>
+            <span class="usuario-email">
+                <?= htmlspecialchars($_SESSION["usuario"]["email"] ?? "", ENT_QUOTES, "UTF-8") ?>
             </span>
         </div>
     </aside>
 
-    <main class="main-content">
-        <header class="topbar">
-            <button id="menuToggle" class="menu-toggle" type="button"
+    <main class="conteudo">
+        <header class="cabecalho">
+            <button class="abrir-menu" id="menuToggle" type="button"
                 aria-label="Abrir menu" aria-expanded="false">☰</button>
 
             <div>
-                <p class="eyebrow">AssisTec / Atendente</p>
+                <p class="subtitulo">AssisTec / Atendente</p>
                 <h1>Clientes</h1>
             </div>
         </header>
 
-        <?php if (isset($mensagem)): ?>
-            <p class="<?= $mensagem["tipo"] === "sucesso" ? "sucesso" : "erro" ?>">
-                <?= htmlspecialchars($mensagem["mensagem"], ENT_QUOTES, "UTF-8") ?>
+        <?php if ($mensagem): ?>
+            <p class="<?= ($mensagem["tipo"] ?? "") === "sucesso" ? "sucesso" : "erro" ?>">
+                <?= htmlspecialchars($mensagem["mensagem"] ?? "", ENT_QUOTES, "UTF-8") ?>
             </p>
         <?php endif; ?>
 
-        <section class="client-panel">
-            <nav class="client-tabs">
-                <button type="button" class="client-tab active" data-tab="lista">
+        <section class="painel-clientes">
+            <nav class="abas">
+                <button type="button" class="client-tab botao-aba active" data-tab="lista">
                     Clientes cadastrados
                 </button>
-                <button type="button" class="client-tab" data-tab="cadastro">
+                <button type="button" class="client-tab botao-aba" data-tab="cadastro">
                     Cadastrar
                 </button>
             </nav>
 
-            <section class="client-template" id="template-lista">
+            <section class="client-template area-cliente" id="template-lista">
                 <form id="form-filtros-clientes"
                     action="../../src/routes/clientesRouter.php?rota=cliente/buscarClientes"
                     method="GET">
 
                     <input type="search" name="nome" placeholder="Buscar por nome">
                     <input type="search" name="cpf" placeholder="CPF" maxlength="11" inputmode="numeric">
-                    <input type="search" name="email" placeholder="email">
+                    <input type="search" name="cidade" placeholder="Cidade">
+
                     <select name="status">
                         <option value="">Todos os status</option>
                         <option value="ativo">Ativo</option>
                         <option value="inativo">Inativo</option>
                     </select>
 
-                    <button class="form-submit" type="submit">Buscar</button>
-                    <button class="client-tab" type="reset">Limpar</button>
+                    <button class="botao-form" type="submit">Buscar</button>
+                    <button class="client-tab botao-aba" type="reset">Limpar</button>
                 </form>
 
                 <p id="clientes-status" role="status">Carregando clientes...</p>
 
-                <div class="table-container">
-                    <table class="clients-table">
+                <div class="tabela-container">
+                    <table class="tabela-clientes">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -122,55 +122,62 @@ unset($_SESSION["flash"]);
                     <td data-campo="email"></td>
                     <td data-campo="telefone"></td>
                     <td data-campo="status"></td>
+                    <td data-campo="cidade" hidden></td>
                     <td>
-                        <button class="form-submit" type="button" data-acao="atualizar">Atualizar</button>
-                        <button class="form-submit danger-button" type="button" data-acao="deletar">Deletar</button>
+                        <button class="botao-form" type="button" data-acao="atualizar">
+                            Atualizar
+                        </button>
+                        <button class="botao-form botao-perigo" type="button" data-acao="deletar">
+                            Deletar
+                        </button>
                     </td>
                 </tr>
             </template>
 
-            <section class="client-template" id="template-cadastro" hidden>
+            <section class="client-template area-cliente" id="template-cadastro" hidden>
                 <h3>Cadastrar cliente</h3>
 
                 <form action="../../src/routes/clientesRouter.php?rota=cliente/cadastrar" method="POST">
-                    <div class="form-grid">
-                        <label class="form-field">Nome
+                    <div class="campos-form">
+                        <label class="campo-form">Nome
                             <input name="nome" maxlength="100" required>
                         </label>
-                        <label class="form-field">CPF
-                            <input name="cpf" maxlength="11" pattern="[0-9]{11}" inputmode="numeric" required>
+                        <label class="campo-form">CPF
+                            <input name="cpf" maxlength="11" pattern="[0-9]{11}"
+                                inputmode="numeric" required>
                         </label>
-                        <label class="form-field">E-mail
+                        <label class="campo-form">E-mail
                             <input type="email" name="email" maxlength="150" required>
                         </label>
-                        <label class="form-field">Telefone
+                        <label class="campo-form">Telefone
                             <input type="tel" name="telefone" maxlength="16" required>
                         </label>
-                        <label class="form-field">Logradouro
+                        <label class="campo-form">Logradouro
                             <input name="logradouro" maxlength="100" required>
                         </label>
-                        <label class="form-field">Número
+                        <label class="campo-form">Número
                             <input name="numero" maxlength="10" required>
                         </label>
-                        <label class="form-field">Bairro
+                        <label class="campo-form">Bairro
                             <input name="bairro" maxlength="100" required>
                         </label>
-                        <label class="form-field">Cidade
+                        <label class="campo-form">Cidade
                             <input name="cidade" maxlength="100" required>
                         </label>
-                        <label class="form-field">Estado
+                        <label class="campo-form">Estado
                             <input name="estado" maxlength="100" required>
                         </label>
-                        <label class="form-field">CEP
-                            <input name="cep" maxlength="8" pattern="[0-9]{8}" inputmode="numeric" required>
+                        <label class="campo-form">CEP
+                            <input name="cep" maxlength="8" pattern="[0-9]{8}"
+                                inputmode="numeric" required>
                         </label>
                     </div>
 
-                    <button class="form-submit" type="submit">Cadastrar cliente</button>
+                    <button class="botao-form" type="submit">Cadastrar cliente</button>
                 </form>
             </section>
 
-            <section class="client-template" id="template-atualizar" hidden>
+            <section class="client-template area-cliente" id="template-atualizar" hidden>
                 <h3>Atualizar Cliente: <span id="cpf-cliente-atualizar"></span></h3>
 
                 <form id="form-atualizar-cliente"
@@ -179,44 +186,46 @@ unset($_SESSION["flash"]);
 
                     <input type="hidden" name="cpf_atual">
 
-                    <div class="form-grid">
-                        <label class="form-field">Nome
+                    <div class="campos-form">
+                        <label class="campo-form">Nome
                             <input name="nome" maxlength="100">
                         </label>
-                        <label class="form-field">E-mail
+                        <label class="campo-form">E-mail
                             <input type="email" name="email" maxlength="150">
                         </label>
-                        <label class="form-field">Telefone
+                        <label class="campo-form">Telefone
                             <input type="tel" name="telefone" maxlength="16">
                         </label>
-                        <label class="form-field">Logradouro
+                        <label class="campo-form">Logradouro
                             <input name="logradouro" maxlength="100">
                         </label>
-                        <label class="form-field">Número
+                        <label class="campo-form">Número
                             <input name="numero" maxlength="10">
                         </label>
-                        <label class="form-field">Bairro
+                        <label class="campo-form">Bairro
                             <input name="bairro" maxlength="100">
                         </label>
-                        <label class="form-field">Cidade
+                        <label class="campo-form">Cidade
                             <input name="cidade" maxlength="100">
                         </label>
-                        <label class="form-field">Estado
+                        <label class="campo-form">Estado
                             <input name="estado" maxlength="100">
                         </label>
-                        <label class="form-field">CEP
+                        <label class="campo-form">CEP
                             <input name="cep" maxlength="8">
                         </label>
                     </div>
 
-                    <div class="form-actions">
-                        <button class="form-submit" type="submit">Salvar alterações</button>
-                        <button class="client-tab" type="button" data-tab="lista">Cancelar</button>
+                    <div class="acoes-form">
+                        <button class="botao-form" type="submit">Salvar alterações</button>
+                        <button class="client-tab botao-aba" type="button" data-tab="lista">
+                            Cancelar
+                        </button>
                     </div>
                 </form>
             </section>
 
-            <section class="client-template" id="template-deletar" hidden>
+            <section class="client-template area-cliente" id="template-deletar" hidden>
                 <h3>Excluir cliente</h3>
                 <p>Confirme a exclusão de <strong id="nome-cliente-deletar"></strong>.</p>
 
@@ -224,15 +233,17 @@ unset($_SESSION["flash"]);
                     action="../../src/routes/clientesRouter.php?rota=cliente/deletar"
                     method="POST">
 
-                    <label class="form-field">CPF
+                    <label class="campo-form campo-excluir">CPF
                         <input name="cpf" readonly required>
                     </label>
 
-                    <div class="form-actions">
-                        <button class="form-submit danger-button" type="submit">
+                    <div class="acoes-form">
+                        <button class="botao-form botao-perigo" type="submit">
                             Confirmar exclusão
                         </button>
-                        <button class="client-tab" type="button" data-tab="lista">Cancelar</button>
+                        <button class="client-tab botao-aba" type="button" data-tab="lista">
+                            Cancelar
+                        </button>
                     </div>
                 </form>
             </section>
