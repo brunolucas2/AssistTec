@@ -72,14 +72,14 @@ function buscarEquipamento(int $equipamento_id): array|false
     return $equipamento;
 }
 
-function deletarEquipamento(int $equipamento_id): bool
+function deletarEquipamento(int $id_equipamento): bool
 {
     global $pdo, $equipamentoSQL;
 
     try {
-        $stmt = $pdo->prepare($equipamentoSQL["deletarCliente"]);
+        $stmt = $pdo->prepare($equipamentoSQL["deletarEquipamento"]);
         $stmt->execute([
-            ":cpf" => $equipamento_id
+            ":id_equipamento" => $id_equipamento
         ]);
 
         return $stmt->rowCount() > 0;

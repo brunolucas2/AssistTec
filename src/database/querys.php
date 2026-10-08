@@ -150,7 +150,7 @@ $equipamentoSQL = [
         WHERE id_equipamento = :id_equipamento;
     ",
     "deletarEquipamento" => "
-        DELETE FROM equipamentos
-        WHERE id = :numero_de_serie
+    DELETE FROM equipamentos
+    WHERE id_equipamento = :id_equipamento
     "
 ];
