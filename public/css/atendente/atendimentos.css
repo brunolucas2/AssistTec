@@ -1,0 +1,268 @@
+/* Painel e navegação interna da página */
+.atendimentos-painel-principal {
+    min-width: 0;
+    padding: 24px;
+    background: #111c30;
+    border: 1px solid #233451;
+    border-radius: 12px;
+}
+
+.atendimentos-painel[hidden] {
+    display: none;
+}
+
+.atendimentos-abas,
+.atendimentos-acoes-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.atendimentos-abas {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #233451;
+}
+
+/* Controles desta página: não definidos no main.css */
+.atendimentos-aba,
+.atendimentos-botao {
+    padding: 9px 14px;
+    border: 0;
+    border-radius: 7px;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.atendimentos-aba {
+    background: transparent;
+    color: #aab8cc;
+}
+
+.atendimentos-aba:hover,
+.atendimentos-aba.active {
+    background: #172a46;
+    color: #93c5fd;
+}
+
+.atendimentos-botao {
+    background: #2563eb;
+    color: #fff;
+}
+
+.atendimentos-botao:hover {
+    background: #1d4ed8;
+}
+
+.atendimentos-botao-perigo {
+    background: #b42332;
+}
+
+.atendimentos-botao-perigo:hover {
+    background: #951b28;
+}
+
+.atendimentos-aba:focus-visible,
+.atendimentos-botao:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+}
+
+/* Filtros e formulários */
+#filtros-atendimentos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+#filtros-atendimentos input,
+#filtros-atendimentos select,
+.atendimentos-campo input:not([type="hidden"]),
+.atendimentos-campo select,
+.atendimentos-campo textarea {
+    min-width: 0;
+    padding: 9px;
+    border: 1px solid #334766;
+    border-radius: 7px;
+    background: #0b1628;
+    color: #e5e7eb;
+    font: inherit;
+}
+
+#filtros-atendimentos input {
+    min-width: 135px;
+}
+
+#filtros-atendimentos input:focus,
+#filtros-atendimentos select:focus,
+.atendimentos-campo input:focus,
+.atendimentos-campo select:focus,
+.atendimentos-campo textarea:focus {
+    outline: 2px solid #60a5fa;
+}
+
+.atendimentos-campos-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.atendimentos-campo {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.atendimentos-campo input:not([type="hidden"]),
+.atendimentos-campo select,
+.atendimentos-campo textarea {
+    width: 100%;
+}
+
+.atendimentos-campo-largo {
+    grid-column: 1 / -1;
+}
+
+.atendimentos-campo textarea {
+    resize: vertical;
+}
+
+.atendimentos-acoes-form,
+#form-cadastrar-atendimento > .atendimentos-botao {
+    margin-top: 16px;
+}
+
+/* Lista */
+#atendimentos-status {
+    margin: 16px 0;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.atendimentos-tabela-container {
+    overflow-x: auto;
+}
+
+.atendimentos-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.atendimentos-tabela th,
+.atendimentos-tabela td {
+    padding: 12px;
+    border-bottom: 1px solid #233451;
+}
+
+.atendimentos-tabela th {
+    background: #172a46;
+}
+
+.atendimentos-acoes-tabela {
+    white-space: nowrap;
+}
+
+#lista-atendimentos tr {
+    cursor: pointer;
+}
+
+#lista-atendimentos tr:hover {
+    background: #172a46;
+}
+
+#lista-atendimentos tr:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: -2px;
+}
+
+/* Modal de detalhes */
+.atendimentos-modal {
+    width: min(760px, calc(100% - 32px));
+    max-height: 85vh;
+    padding: 24px;
+    overflow-y: auto;
+    border: 1px solid #334766;
+    border-radius: 12px;
+    background: #111c30;
+    color: #e5e7eb;
+}
+
+.atendimentos-modal::backdrop {
+    background: rgb(0 0 0 / 70%);
+}
+
+.atendimentos-modal-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.atendimentos-modal-cabecalho h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.atendimentos-fechar-modal {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 7px;
+    background: #172a46;
+    color: #e5e7eb;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.atendimentos-dados {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+}
+
+.atendimentos-dados div {
+    min-width: 0;
+}
+
+.atendimentos-dados dt {
+    margin-bottom: 5px;
+    color: #8290a6;
+    font-size: 12px;
+}
+
+.atendimentos-dados dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .atendimentos-painel-principal {
+        padding: 16px;
+    }
+
+    .atendimentos-campos-form,
+    .atendimentos-dados {
+        grid-template-columns: 1fr;
+    }
+
+    .atendimentos-abas {
+        overflow-x: auto;
+    }
+
+    #filtros-atendimentos input,
+    #filtros-atendimentos select {
+        width: 100%;
+    }
+}

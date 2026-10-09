@@ -1,6 +1,6 @@
-create database web_system_assistencia_tecnica;
+CREATE DATABASE web_system_assistencia_tecnica;
 
-use web_system_assistencia_tecnica;
+USE web_system_assistencia_tecnica;
 
 CREATE TABLE clientes (
     id_cliente INT AUTO_INCREMENT,
@@ -34,7 +34,8 @@ CREATE TABLE equipamentos (
     status ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
 
     PRIMARY KEY (id_equipamento),
-    FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente)
+    UNIQUE (id_equipamento, id_cliente),
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
 );
 
 CREATE TABLE colaboradores (
@@ -53,8 +54,7 @@ CREATE TABLE colaboradores (
     data_de_cadastro DATE DEFAULT (CURRENT_DATE),
 
     PRIMARY KEY (id_colaborador),
-    UNIQUE (email),
-    UNIQUE (cpf)
+    UNIQUE (id_colaborador, email)
 );
 
 CREATE TABLE usuarios (
@@ -66,10 +66,9 @@ CREATE TABLE usuarios (
     status ENUM('ativo', 'inativo') DEFAULT 'ativo',
 
     PRIMARY KEY (id_usuario),
-    UNIQUE (id_colaborador),
     UNIQUE (login),
-    FOREIGN KEY (login) REFERENCES colaboradores(email),
-    FOREIGN KEY (id_colaborador) REFERENCES colaboradores(id_colaborador)
+    FOREIGN KEY (id_colaborador, login)
+        REFERENCES colaboradores(id_colaborador, email)
 );
 
 CREATE TABLE ordens_de_servico (
@@ -87,13 +86,20 @@ CREATE TABLE ordens_de_servico (
     valor_estimado DECIMAL(10, 2),
     valor_final DECIMAL(10, 2),
     forma_de_pagamento VARCHAR(50),
-    status ENUM('aberta', 'em_andamento', 'aguardando_peca', 'concluida', 'cancelada') DEFAULT 'aberta',
+    status ENUM(
+        'aberta',
+        'em_andamento',
+        'aguardando_peca',
+        'concluida',
+        'cancelada'
+    ) DEFAULT 'aberta',
     observacoes TEXT,
 
     PRIMARY KEY (id_ordem),
     UNIQUE (numero_da_os),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
-    FOREIGN KEY (id_equipamento) REFERENCES equipamentos(id_equipamento),
+    FOREIGN KEY (id_equipamento, id_cliente)
+        REFERENCES equipamentos(id_equipamento, id_cliente),
     FOREIGN KEY (id_tecnico) REFERENCES colaboradores(id_colaborador)
 );
 

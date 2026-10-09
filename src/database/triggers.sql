@@ -5,7 +5,7 @@ AFTER UPDATE ON ordens_de_servico
 FOR EACH ROW
 BEGIN
     IF NEW.status = 'concluida'
-       AND OLD.status <> 'concluida' THEN
+        AND NOT (OLD.status <=> 'concluida') THEN
 
         INSERT INTO log_ordens_de_servico (
             id_ordem,
