@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 verificarNivel("administrador");
+
+
+header("Location: ../atendente/");
 ?>
 
 <!DOCTYPE html>
