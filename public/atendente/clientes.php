@@ -12,11 +12,9 @@ unset($_SESSION["flash"]);
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Clientes | AssisTec</title>
 
     <link rel="stylesheet" href="../css/main.css">
@@ -26,7 +24,6 @@ unset($_SESSION["flash"]);
     <script src="../js/utils/nav.js" defer></script>
     <script src="../js/utils/consultarCep.js" defer></script>
 </head>
-
 <body>
     <aside class="menu-lateral" id="sidebar">
         <a class="marca" href="index.php">
@@ -84,7 +81,8 @@ unset($_SESSION["flash"]);
                     method="GET">
 
                     <input type="search" name="nome" placeholder="Buscar por nome">
-                    <input type="search" name="cpf" placeholder="CPF" maxlength="11" inputmode="numeric">
+                    <input type="search" name="cpf" placeholder="CPF" maxlength="11"
+                        inputmode="numeric">
                     <input type="search" name="cidade" placeholder="Cidade">
 
                     <select name="status">
@@ -140,7 +138,8 @@ unset($_SESSION["flash"]);
             <section class="client-template area-cliente" id="template-cadastro" hidden>
                 <h3>Cadastrar cliente</h3>
 
-                <form action="../../src/routes/clientesRouter.php?rota=cliente/cadastrar" method="POST">
+                <form action="../../src/routes/clientesRouter.php?rota=cliente/cadastrar"
+                    method="POST">
                     <div class="campos-form">
                         <label class="campo-form">Nome
                             <input name="nome" maxlength="100" required>
@@ -162,19 +161,15 @@ unset($_SESSION["flash"]);
                         <label class="campo-form">Logradouro
                             <input name="logradouro" maxlength="100" required readonly>
                         </label>
-
                         <label class="campo-form">Número
                             <input name="numero" maxlength="10" required>
                         </label>
-
                         <label class="campo-form">Bairro
                             <input name="bairro" maxlength="100" required readonly>
                         </label>
-
                         <label class="campo-form">Cidade
                             <input id="cidade" name="cidade" maxlength="100" required readonly>
                         </label>
-
                         <label class="campo-form">Estado
                             <input name="estado" maxlength="100" required readonly>
                         </label>
@@ -256,6 +251,30 @@ unset($_SESSION["flash"]);
             </section>
         </section>
     </main>
-</body>
 
+    <dialog class="modal-cliente" id="modal-cliente"
+        aria-labelledby="titulo-modal-cliente">
+        <div class="modal-cabecalho">
+            <h2 id="titulo-modal-cliente">Dados do cliente</h2>
+            <button class="fechar-modal" id="fechar-modal-cliente" type="button"
+                aria-label="Fechar">×</button>
+        </div>
+
+        <dl class="dados-cliente">
+            <div><dt>ID</dt><dd data-detalhe="id_cliente"></dd></div>
+            <div><dt>Nome</dt><dd data-detalhe="nome"></dd></div>
+            <div><dt>CPF</dt><dd data-detalhe="cpf"></dd></div>
+            <div><dt>E-mail</dt><dd data-detalhe="email"></dd></div>
+            <div><dt>Telefone</dt><dd data-detalhe="telefone"></dd></div>
+            <div><dt>Logradouro</dt><dd data-detalhe="logradouro"></dd></div>
+            <div><dt>Número</dt><dd data-detalhe="numero"></dd></div>
+            <div><dt>Bairro</dt><dd data-detalhe="bairro"></dd></div>
+            <div><dt>Cidade</dt><dd data-detalhe="cidade"></dd></div>
+            <div><dt>Estado</dt><dd data-detalhe="estado"></dd></div>
+            <div><dt>CEP</dt><dd data-detalhe="cep"></dd></div>
+            <div><dt>Data de cadastro</dt><dd data-detalhe="data_de_cadastro"></dd></div>
+            <div><dt>Status</dt><dd data-detalhe="status"></dd></div>
+        </dl>
+    </dialog>
+</body>
 </html>

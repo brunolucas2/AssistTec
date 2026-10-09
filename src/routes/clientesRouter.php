@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__DIR__, 2) . "/src/controllers/ClientesController.php";
 require_once dirname(__DIR__) . "/helper/validarDados.php";
 
@@ -7,15 +8,14 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 $clientesPage = "../../public/atendente/clientes.php";
-
 $rota = $_GET["rota"] ?? "";
 
 $metodosPermitidos = [
     "cliente/buscarClientes" => "GET",
-    "cliente/buscarCliente"  => "GET",
-    "cliente/cadastrar"      => "POST",
-    "cliente/atualizar"      => "POST",
-    "cliente/deletar"        => "POST"
+    "cliente/buscarCliente" => "GET",
+    "cliente/cadastrar" => "POST",
+    "cliente/atualizar" => "POST",
+    "cliente/deletar" => "POST"
 ];
 
 if (!isset($metodosPermitidos[$rota])) {
@@ -71,21 +71,16 @@ function rota_cadastrarCliente(): void
 
     try {
         cadastrarCliente($_POST);
-
         $_SESSION["flash"] = [
             "tipo" => "sucesso",
             "mensagem" => "Cliente cadastrado com sucesso."
         ];
     } catch (PDOException $e) {
         error_log($e->getMessage());
-
         $_SESSION["flash"] = [
             "tipo" => "erro",
             "mensagem" => "Não foi possível cadastrar o cliente."
         ];
-
-        http_response_code(500);
-        exit("Erro ao cadastrar: " . $e->getMessage());
     }
 
     header("Location: $clientesPage");
@@ -96,26 +91,20 @@ function rota_atualizarCliente(): void
 {
     global $clientesPage;
 
-    $campos = [
-        "cpf_atual"
-    ];
-
-    validador($campos, $_POST, $clientesPage);
+    validador(["cpf_atual"], $_POST, $clientesPage);
 
     try {
         atualizarCliente($_POST);
-
         $_SESSION["flash"] = [
             "tipo" => "sucesso",
-            "mensagem" => "Cliente atualizado com sucesso"
+            "mensagem" => "Cliente atualizado com sucesso."
         ];
     } catch (PDOException $e) {
+        error_log($e->getMessage());
         $_SESSION["flash"] = [
             "tipo" => "erro",
             "mensagem" => "Não foi possível atualizar o cliente."
         ];
-        http_response_code(500);
-        exit("Erro ao Atualizar: " . $e->getMessage());
     }
 
     header("Location: $clientesPage");
@@ -124,73 +113,75 @@ function rota_atualizarCliente(): void
 
 function rota_buscarClientes(): void
 {
-    header('Content-Type: application/json; charset=utf-8');
+    header("Content-Type: application/json; charset=utf-8");
 
     try {
-        $clientes = buscarClientes();
-
-        echo json_encode($clientes, JSON_UNESCAPED_UNICODE);
-        exit;
+        echo json_encode(buscarClientes(), JSON_UNESCAPED_UNICODE);
     } catch (PDOException $e) {
+        error_log($e->getMessage());
         http_response_code(500);
-
-        echo json_encode([
-            'erro' => 'Não foi possível buscar os clientes!'
-        ], JSON_UNESCAPED_UNICODE);
-        exit;
+        echo json_encode(["erro" => "Não foi possível buscar os clientes."], JSON_UNESCAPED_UNICODE);
     }
+
+    exit;
 }
 
 function rota_buscarCliente(): void
 {
-    header('Content-Type: application/json; charset=utf-8');
+    header("Content-Type: application/json; charset=utf-8");
 
-    $cpf = $_GET['cpf'] ?? '';
+    $cpf = $_GET["cpf"] ?? "";
 
-    if ($cpf === '') {
+    if ($cpf === "") {
         http_response_code(400);
-        echo json_encode(['erro' => 'CPF não informado.']);
-        return;
+        echo json_encode(["erro" => "CPF não informado."], JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     try {
         $cliente = buscarCliente($cpf);
 
+        if ($cliente === false) {
+            http_response_code(404);
+            echo json_encode(["erro" => "Cliente não encontrado."], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
         echo json_encode($cliente, JSON_UNESCAPED_UNICODE);
-        exit;
     } catch (PDOException $e) {
+        error_log($e->getMessage());
         http_response_code(500);
-
-        echo json_encode([
-            'erro' => 'Não foi possível buscar os clientes!'
-        ], JSON_UNESCAPED_UNICODE);
-        exit;
+        echo json_encode(["erro" => "Não foi possível buscar o cliente."], JSON_UNESCAPED_UNICODE);
     }
-}
 
+    exit;
+}
 
 function rota_deletarCliente(): void
 {
-    header('Content-Type: application/json; charset=utf-8');
+    header("Content-Type: application/json; charset=utf-8");
 
-    $cpf = $_POST['cpf'] ?? '';
+    $cpf = $_POST["cpf"] ?? "";
 
-    if ($cpf === '') {
+    if ($cpf === "") {
         http_response_code(400);
-        echo json_encode(['erro' => 'CPF não informado.']);
-        return;
+        echo json_encode(["erro" => "CPF não informado."], JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     try {
-        if (deletarCliente($cpf)) {
-            echo json_encode(['mensagem' => 'Cliente excluído com sucesso.']);
-            return;
+        if (!deletarCliente($cpf)) {
+            http_response_code(404);
+            echo json_encode(["erro" => "Cliente não encontrado."], JSON_UNESCAPED_UNICODE);
+            exit;
         }
 
-        http_response_code(404);
-        echo json_encode(['erro' => 'Cliente não encontrado.']);
-    } catch (PDOException) {
+        echo json_encode(["mensagem" => "Cliente excluído com sucesso."], JSON_UNESCAPED_UNICODE);
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
         http_response_code(500);
-        echo json_encode(['erro' => 'Não foi possível excluir o cliente.']);
+        echo json_encode(["erro" => "Não foi possível excluir o cliente."], JSON_UNESCAPED_UNICODE);
     }
+
+    exit;
 }

@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__DIR__) . "/database/querys.php";
 require_once dirname(__DIR__) . "/database/db_connection.php";
 
@@ -7,7 +8,6 @@ function cadastrarCliente(array $cliente): void
     global $pdo, $clienteSQL;
 
     $stmt = $pdo->prepare($clienteSQL["cadastrarCliente"]);
-
     $stmt->execute([
         ":nome" => $cliente["nome"],
         ":cpf" => $cliente["cpf"],
@@ -28,8 +28,7 @@ function atualizarCliente(array $cliente): bool
 
     $stmt = $pdo->prepare($clienteSQL["atualizarCliente"]);
 
-    try {
-        $stmt->execute([
+    return $stmt->execute([
         ":nome" => $cliente["nome"] ?? "",
         ":cpf_atual" => $cliente["cpf_atual"],
         ":email" => $cliente["email"] ?? "",
@@ -41,52 +40,38 @@ function atualizarCliente(array $cliente): bool
         ":estado" => $cliente["estado"] ?? "",
         ":cep" => $cliente["cep"] ?? ""
     ]);
-    return $stmt->rowCount() > 0;
-    } catch (PDOException $e) {
-        return false;
-    }
 }
 
 function buscarClientes(): array
 {
     global $pdo, $clienteSQL;
 
-    $query = $pdo->prepare($clienteSQL["buscarClientes"]);
+    $stmt = $pdo->prepare($clienteSQL["buscarClientes"]);
+    $stmt->execute();
 
-    $query->execute();
-
-    $clientes = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    return $clientes;
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function buscarCliente(string $cpfCliente): array
+function buscarCliente(string $cpfCliente): array|false
 {
     global $pdo, $clienteSQL;
 
     $stmt = $pdo->prepare($clienteSQL["buscarCliente"]);
-
     $stmt->execute([
         ":cpf" => $cpfCliente
     ]);
 
-    $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $cliente;
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function deletarCliente(string $cpfCliente): bool
 {
     global $pdo, $clienteSQL;
 
-    try {
-        $stmt = $pdo->prepare($clienteSQL["deletarCliente"]);
-        $stmt->execute([
-            ":cpf" => $cpfCliente
-        ]);
+    $stmt = $pdo->prepare($clienteSQL["deletarCliente"]);
+    $stmt->execute([
+        ":cpf" => $cpfCliente
+    ]);
 
-        return $stmt->rowCount() > 0;
-    } catch (PDOException $e) {
-        return false;
-    }
+    return $stmt->rowCount() > 0;
 }

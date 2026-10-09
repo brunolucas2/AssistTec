@@ -1,18 +1,21 @@
 <?php
 
-require_once dirname(__DIR__) . "/controllers/equipamentosController.php";
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+require_once dirname(__DIR__) . "/controllers/EquipamentosController.php";
 require_once dirname(__DIR__) . "/helper/validarDados.php";
 
 $equipamentosPage = "../../public/atendente/equipamentos.php";
-
 $rota = $_GET["rota"] ?? "";
 
 $metodosPermitidos = [
-    "buscarEquipamentos"   => "GET",
-    "buscarEquipamento"    => "GET",
+    "buscarEquipamentos" => "GET",
+    "buscarEquipamento" => "GET",
     "cadastrarEquipamento" => "POST",
     "atualizarEquipamento" => "POST",
-    "deletarEquipamento"   => "POST"
+    "deletarEquipamento" => "POST"
 ];
 
 if (!isset($metodosPermitidos[$rota])) {
@@ -26,16 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] !== $metodosPermitidos[$rota]) {
 }
 
 switch ($rota) {
-    case "cadastrarEquipamento":
-        rota_cadastrarEquipamento();
-        break;
-
     case "buscarEquipamentos":
         rota_buscarEquipamentos();
         break;
 
     case "buscarEquipamento":
         rota_buscarEquipamento();
+        break;
+
+    case "cadastrarEquipamento":
+        rota_cadastrarEquipamento();
         break;
 
     case "atualizarEquipamento":
@@ -45,10 +48,6 @@ switch ($rota) {
     case "deletarEquipamento":
         rota_deletarEquipamento();
         break;
-
-    default:
-        http_response_code(404);
-        exit("Ação não encontrada!");
 }
 
 function rota_cadastrarEquipamento(): void
@@ -70,21 +69,16 @@ function rota_cadastrarEquipamento(): void
 
     try {
         cadastrarEquipamento($_POST);
-
         $_SESSION["flash"] = [
             "tipo" => "sucesso",
             "mensagem" => "Equipamento cadastrado com sucesso."
         ];
     } catch (PDOException $e) {
         error_log($e->getMessage());
-
         $_SESSION["flash"] = [
             "tipo" => "erro",
             "mensagem" => "Não foi possível cadastrar o equipamento."
         ];
-
-        http_response_code(500);
-        exit("Erro ao cadastrar o equipamento.");
     }
 
     header("Location: $equipamentosPage");
@@ -100,11 +94,7 @@ function rota_buscarEquipamentos(): void
     } catch (PDOException $e) {
         error_log($e->getMessage());
         http_response_code(500);
-
-        echo json_encode(
-            ["erro" => "Não foi possível buscar os equipamentos."],
-            JSON_UNESCAPED_UNICODE
-        );
+        echo json_encode(["erro" => "Não foi possível buscar os equipamentos."], JSON_UNESCAPED_UNICODE);
     }
 
     exit;
@@ -118,7 +108,7 @@ function rota_buscarEquipamento(): void
 
     if ($id === false || $id === null || $id <= 0) {
         http_response_code(400);
-        echo json_encode(["erro" => "ID do equipamento inválido ou não informado."]);
+        echo json_encode(["erro" => "ID do equipamento inválido ou não informado."], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -127,7 +117,7 @@ function rota_buscarEquipamento(): void
 
         if ($equipamento === false) {
             http_response_code(404);
-            echo json_encode(["erro" => "Equipamento não encontrado."]);
+            echo json_encode(["erro" => "Equipamento não encontrado."], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
@@ -135,7 +125,7 @@ function rota_buscarEquipamento(): void
     } catch (PDOException $e) {
         error_log($e->getMessage());
         http_response_code(500);
-        echo json_encode(["erro" => "Não foi possível buscar o equipamento."]);
+        echo json_encode(["erro" => "Não foi possível buscar o equipamento."], JSON_UNESCAPED_UNICODE);
     }
 
     exit;
@@ -145,26 +135,20 @@ function rota_atualizarEquipamento(): void
 {
     global $equipamentosPage;
 
-    $campos = ["id_equipamento"];
-    validador($campos, $_POST, $equipamentosPage);
+    validador(["id_equipamento"], $_POST, $equipamentosPage);
 
     try {
         atualizarEquipamento($_POST);
-
         $_SESSION["flash"] = [
             "tipo" => "sucesso",
             "mensagem" => "Equipamento atualizado com sucesso."
         ];
     } catch (PDOException $e) {
         error_log($e->getMessage());
-
         $_SESSION["flash"] = [
             "tipo" => "erro",
             "mensagem" => "Não foi possível atualizar o equipamento."
         ];
-
-        http_response_code(500);
-        exit("Erro ao atualizar o equipamento.");
     }
 
     header("Location: $equipamentosPage");
@@ -179,24 +163,22 @@ function rota_deletarEquipamento(): void
 
     if ($id === false || $id === null || $id <= 0) {
         http_response_code(400);
-        echo json_encode(["erro" => "ID do equipamento inválido ou não informado."]);
+        echo json_encode(["erro" => "ID do equipamento inválido ou não informado."], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     try {
-        $deletado = deletarEquipamento($id);
-
-        if (!$deletado) {
+        if (!deletarEquipamento($id)) {
             http_response_code(404);
-            echo json_encode(["erro" => "Equipamento não encontrado."]);
+            echo json_encode(["erro" => "Equipamento não encontrado."], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
-        echo json_encode(["mensagem" => "Equipamento excluído com sucesso."]);
+        echo json_encode(["mensagem" => "Equipamento excluído com sucesso."], JSON_UNESCAPED_UNICODE);
     } catch (PDOException $e) {
         error_log($e->getMessage());
         http_response_code(500);
-        echo json_encode(["erro" => "Não foi possível excluir o equipamento."]);
+        echo json_encode(["erro" => "Não foi possível excluir o equipamento."], JSON_UNESCAPED_UNICODE);
     }
 
     exit;

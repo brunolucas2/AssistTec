@@ -2,6 +2,7 @@ const filtrosEquipamentos = document.querySelector("#filtros-equipamentos");
 const listaEquipamentos = document.querySelector("#lista-equipamentos");
 const statusEquipamentos = document.querySelector("#equipamentos-status");
 const modeloEquipamento = document.querySelector("#linha-equipamento");
+const modalEquipamento = document.querySelector("#modal-equipamento");
 
 let equipamentos = [];
 
@@ -31,19 +32,29 @@ function mostrarEquipamentos(lista) {
 
     lista.forEach(equipamento => {
         const linha = modeloEquipamento.content.cloneNode(true);
+        const tr = linha.querySelector("tr");
 
-        linha.querySelector('[data-campo="id_equipamento"]').textContent =
-            equipamento.id_equipamento ?? "";
-        linha.querySelector('[data-campo="id_cliente"]').textContent =
-            equipamento.id_cliente ?? "";
-        linha.querySelector('[data-campo="tipo"]').textContent =
-            equipamento.tipo ?? "";
-        linha.querySelector('[data-campo="marca"]').textContent =
-            equipamento.marca ?? "";
-        linha.querySelector('[data-campo="numero_de_serie"]').textContent =
-            equipamento.numero_de_serie ?? "";
-        linha.querySelector('[data-campo="patrimonio"]').textContent =
-            equipamento.patrimonio ?? "";
+        tr.dataset.id = equipamento.id_equipamento;
+        tr.tabIndex = 0;
+
+        const campos = {
+            id_equipamento: equipamento.id_equipamento,
+            cliente: equipamento.cliente,
+            tipo: equipamento.tipo,
+            marca: equipamento.marca,
+            numero_de_serie: equipamento.numero_de_serie,
+            patrimonio: equipamento.patrimonio
+        };
+
+        Object.entries(campos).forEach(([campo, valor]) => {
+            const celula = linha.querySelector(`[data-campo="${campo}"]`);
+
+            if (!celula) {
+                throw new Error(`Não encontrei data-campo="${campo}" no template.`);
+            }
+
+            celula.textContent = valor ?? "";
+        });
 
         listaEquipamentos.appendChild(linha);
     });
@@ -51,6 +62,57 @@ function mostrarEquipamentos(lista) {
     statusEquipamentos.textContent = lista.length
         ? `${lista.length} equipamento(s) encontrado(s).`
         : "Nenhum equipamento encontrado.";
+}
+
+async function buscarEquipamento(id) {
+    const url = new URL(filtrosEquipamentos.action);
+    url.searchParams.set("rota", "buscarEquipamento");
+    url.searchParams.set("id_equipamento", id);
+
+    const resposta = await fetch(url);
+    const equipamento = await resposta.json();
+
+    if (!resposta.ok) {
+        throw new Error(equipamento.erro || "Não foi possível buscar o equipamento.");
+    }
+
+    return equipamento;
+}
+
+async function mostrarDetalhesEquipamento(id) {
+    const campos = [
+        "id_equipamento",
+        "id_cliente",
+        "cliente",
+        "tipo",
+        "marca",
+        "numero_de_serie",
+        "patrimonio",
+        "descricao",
+        "sistema_operacional",
+        "data_de_cadastro",
+        "status"
+    ];
+
+    campos.forEach(campo => {
+        modalEquipamento.querySelector(`[data-detalhe="${campo}"]`).textContent =
+            "Carregando...";
+    });
+
+    modalEquipamento.showModal();
+
+    try {
+        const equipamento = await buscarEquipamento(id);
+
+        campos.forEach(campo => {
+            modalEquipamento.querySelector(`[data-detalhe="${campo}"]`).textContent =
+                equipamento[campo] ?? "Não informado";
+        });
+    } catch (erro) {
+        console.error(erro);
+        modalEquipamento.close();
+        alert(erro.message);
+    }
 }
 
 filtrosEquipamentos.addEventListener("submit", evento => {
@@ -78,55 +140,96 @@ filtrosEquipamentos.addEventListener("reset", () => {
     setTimeout(() => mostrarEquipamentos(equipamentos), 0);
 });
 
-listaEquipamentos.addEventListener("click", evento => {
+listaEquipamentos.addEventListener("click", async evento => {
     const botao = evento.target.closest("[data-acao]");
-    if (!botao) return;
 
-    const linha = botao.closest("tr");
-    const id = linha.querySelector('[data-campo="id_equipamento"]').textContent;
-    const equipamento = equipamentos.find(item =>
-        String(item.id_equipamento) === id
-    );
+    if (botao) {
+        const linha = botao.closest("tr");
+        const id = linha.dataset.id;
+        const equipamento = equipamentos.find(item =>
+            String(item.id_equipamento) === id
+        );
 
-    if (!equipamento) return;
+        if (!equipamento) return;
 
-    document.querySelectorAll(".client-template").forEach(template => {
-        template.hidden = true;
-    });
+        if (botao.dataset.acao === "atualizar") {
+            try {
+                const detalhes = await buscarEquipamento(id);
 
-    if (botao.dataset.acao === "atualizar") {
-        const formulario = document.querySelector("#form-atualizar-equipamento");
+                document.querySelectorAll(".client-template").forEach(template => {
+                    template.hidden = true;
+                });
 
-        document.querySelector("#id-equipamento-atualizar").textContent = id;
-        formulario.elements.namedItem("id_equipamento").value = id;
+                const formulario =
+                    document.querySelector("#form-atualizar-equipamento");
 
-        [
-            "tipo",
-            "marca",
-            "numero_de_serie",
-            "patrimonio",
-            "descricao",
-            "sistema_operacional"
-        ].forEach(campo => {
-            const input = formulario.elements.namedItem(campo);
-            if (input) input.value = equipamento[campo] ?? "";
-        });
+                document.querySelector("#id-equipamento-atualizar").textContent = id;
+                formulario.elements.namedItem("id_equipamento").value = id;
 
-        // Deixe a senha vazia; só será alterada se uma nova for digitada.
-        formulario.elements.namedItem("senha_de_acesso").value = "";
+                [
+                    "tipo",
+                    "marca",
+                    "numero_de_serie",
+                    "patrimonio",
+                    "descricao",
+                    "sistema_operacional"
+                ].forEach(campo => {
+                    formulario.elements.namedItem(campo).value =
+                        detalhes[campo] ?? "";
+                });
 
-        document.querySelector("#template-atualizar").hidden = false;
+                formulario.elements.namedItem("senha_de_acesso").value = "";
+                document.querySelector("#template-atualizar").hidden = false;
+            } catch (erro) {
+                console.error(erro);
+                alert(erro.message);
+            }
+        }
+
+        if (botao.dataset.acao === "deletar") {
+            document.querySelectorAll(".client-template").forEach(template => {
+                template.hidden = true;
+            });
+
+            document.querySelector(
+                '#form-deletar-equipamento [name="id_equipamento"]'
+            ).value = id;
+
+            document.querySelector("#serie-equipamento-deletar").textContent =
+                equipamento.numero_de_serie ?? id;
+
+            document.querySelector("#template-deletar").hidden = false;
+        }
+
+        return;
     }
 
-    if (botao.dataset.acao === "deletar") {
-        document.querySelector(
-            '#form-deletar-equipamento [name="id_equipamento"]'
-        ).value = id;
+    const linha = evento.target.closest("tr[data-id]");
 
-        document.querySelector("#serie-equipamento-deletar").textContent =
-            equipamento.numero_de_serie ?? id;
+    if (linha) {
+        await mostrarDetalhesEquipamento(linha.dataset.id);
+    }
+});
 
-        document.querySelector("#template-deletar").hidden = false;
+listaEquipamentos.addEventListener("keydown", evento => {
+    const linha = evento.target.closest("tr[data-id]");
+
+    if (!linha || evento.target !== linha) return;
+
+    if (evento.key === "Enter" || evento.key === " ") {
+        evento.preventDefault();
+        mostrarDetalhesEquipamento(linha.dataset.id);
+    }
+});
+
+document.querySelector("#fechar-modal-equipamento")
+    .addEventListener("click", () => {
+        modalEquipamento.close();
+    });
+
+modalEquipamento.addEventListener("click", evento => {
+    if (evento.target === modalEquipamento) {
+        modalEquipamento.close();
     }
 });
 
@@ -145,14 +248,16 @@ document.querySelector("#form-deletar-equipamento")
             const resultado = await resposta.json();
 
             if (!resposta.ok) {
-                throw new Error(resultado.erro ?? "Não foi possível excluir o equipamento.");
+                throw new Error(
+                    resultado.erro || "Não foi possível excluir o equipamento."
+                );
             }
 
             document.querySelector('[data-tab="lista"]').click();
             await carregarEquipamentos();
         } catch (erro) {
             console.error(erro);
-            statusEquipamentos.textContent = erro.message;
+            alert(erro.message);
         }
     });
 

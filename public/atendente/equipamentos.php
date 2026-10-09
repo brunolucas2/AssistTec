@@ -12,10 +12,10 @@ unset($_SESSION["flash"]);
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Equipamentos | AssisTec</title>
 
     <link rel="stylesheet" href="../css/main.css">
@@ -114,7 +114,7 @@ unset($_SESSION["flash"]);
             <template id="linha-equipamento">
                 <tr>
                     <td data-campo="id_equipamento"></td>
-                    <td data-campo="id_cliente"></td>
+                    <td data-campo="cliente"></td>
                     <td data-campo="tipo"></td>
                     <td data-campo="marca"></td>
                     <td data-campo="numero_de_serie"></td>
@@ -135,7 +135,6 @@ unset($_SESSION["flash"]);
 
                 <form action="../../src/routes/equipamentosRouter.php?rota=cadastrarEquipamento"
                     method="POST">
-
                     <div class="campos-form">
                         <label class="campo-form">ID do cliente
                             <input type="number" name="id_cliente" min="1" required>
@@ -213,7 +212,9 @@ unset($_SESSION["flash"]);
 
             <section class="client-template area-cliente" id="template-deletar" hidden>
                 <h3>Excluir equipamento</h3>
-                <p>Confirme a exclusão do equipamento <strong id="serie-equipamento-deletar"></strong>.</p>
+                <p>Confirme a exclusão do equipamento
+                    <strong id="serie-equipamento-deletar"></strong>.
+                </p>
 
                 <form id="form-deletar-equipamento"
                     action="../../src/routes/equipamentosRouter.php?rota=deletarEquipamento"
@@ -233,5 +234,62 @@ unset($_SESSION["flash"]);
             </section>
         </section>
     </main>
+
+    <dialog class="modal-equipamento" id="modal-equipamento"
+        aria-labelledby="titulo-modal-equipamento">
+        <div class="modal-cabecalho">
+            <h2 id="titulo-modal-equipamento">Dados do equipamento</h2>
+            <button class="fechar-modal" id="fechar-modal-equipamento" type="button"
+                aria-label="Fechar">×</button>
+        </div>
+
+        <dl class="dados-equipamento">
+            <div>
+                <dt>ID do equipamento</dt>
+                <dd data-detalhe="id_equipamento"></dd>
+            </div>
+            <div>
+                <dt>ID do cliente</dt>
+                <dd data-detalhe="id_cliente"></dd>
+            </div>
+            <div>
+                <dt>Cliente</dt>
+                <dd data-detalhe="cliente"></dd>
+            </div>
+            <div>
+                <dt>Tipo</dt>
+                <dd data-detalhe="tipo"></dd>
+            </div>
+            <div>
+                <dt>Marca</dt>
+                <dd data-detalhe="marca"></dd>
+            </div>
+            <div>
+                <dt>Número de série</dt>
+                <dd data-detalhe="numero_de_serie"></dd>
+            </div>
+            <div>
+                <dt>Patrimônio</dt>
+                <dd data-detalhe="patrimonio"></dd>
+            </div>
+            <div>
+                <dt>Descrição</dt>
+                <dd data-detalhe="descricao"></dd>
+            </div>
+            <div>
+                <dt>Sistema operacional</dt>
+                <dd data-detalhe="sistema_operacional"></dd>
+            </div>
+            <div>
+                <dt>Data de cadastro</dt>
+                <dd data-detalhe="data_de_cadastro"></dd>
+            </div>
+            <div>
+                <dt>Status</dt>
+                <dd data-detalhe="status"></dd>
+            </div>
+        </dl>
+    </dialog>
 </body>
+
 </html>
