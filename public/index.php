@@ -4,7 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 $paginasPorNivel = [
-    "administrador" => "admin/index.php",
+    "administrador" => "atendente/index.php", #"admin/index.php",
     "tecnico" => "tecnico/index.php",
     "atendente" => "atendente/index.php"
 ];

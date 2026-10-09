@@ -1,9 +1,6 @@
 <?php
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 verificarNivel("administrador");
-
-
-header("Location: ../atendente/index.php");
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +19,14 @@ header("Location: ../atendente/index.php");
     <link rel="stylesheet" href="../css/administrador.css">
 </head>
 <body>
-    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+    <h1>Em desenvolvimento ...</h1>
 </body>
 </html>
