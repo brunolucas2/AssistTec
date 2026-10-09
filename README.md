@@ -3,7 +3,41 @@
 
 ---
 
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Apache](https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=apache&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS_EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![Let's Encrypt](https://img.shields.io/badge/HTTPS-Let's_Encrypt-003A70?style=for-the-badge&logo=letsencrypt&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+---
+
 Projeto de um sistema web com operações de cadastro, consulta, edição e exclusão de dados (CRUD).
+
+## Site na nuvem
+
+O sistema está hospedado em uma instância **AWS EC2** (Ubuntu + Apache + PHP + MySQL), com HTTPS.
+
+🌐 **Acesse:** https://assis-tec.duckdns.org
+
+### Acesso de demonstração
+
+| Campo | Valor |
+|---|---|
+| E-mail | `admin@assistec.com` |
+| Senha | `123456` |
+
+> Conta de teste com nível **admin**. Os dados do ambiente são fictícios e podem ser apagados a qualquer momento.
+
+### Status atual
+
+Os módulos de **clientes**, **equipamentos** e **ordens de serviço** já permitem cadastrar, consultar, atualizar e excluir registros. As demais áreas (painel do administrador e do técnico) ainda estão em desenvolvimento.
+
 
 ## Descrição do Problema
 
