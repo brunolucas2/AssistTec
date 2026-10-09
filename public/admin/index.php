@@ -3,7 +3,7 @@ require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 verificarNivel("administrador");
 
 
-header("Location: ../atendente/");
+header("Location: ../atendente/index.php");
 ?>
 
 <!DOCTYPE html>
