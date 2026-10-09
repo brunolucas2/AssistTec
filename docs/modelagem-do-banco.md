@@ -152,16 +152,16 @@ erDiagram
 ### Modelo físico
 
 ```sql
-    create database web_system_assistencia_tecnica;
+    CREATE DATABASE web_system_assistencia_tecnica;
 
-    use web_system_assistencia_tecnica;
+    USE web_system_assistencia_tecnica;
 
     CREATE TABLE clientes (
         id_cliente INT AUTO_INCREMENT,
         nome VARCHAR(100) NOT NULL,
-        cpf VARCHAR(11) NOT NULL,
-        email VARCHAR(150) NOT NULL,
-        telefone VARCHAR(16) NOT NULL,
+        cpf VARCHAR(11) NOT NULL UNIQUE,
+        email VARCHAR(150) NOT NULL UNIQUE,
+        telefone VARCHAR(16) NOT NULL UNIQUE,
         logradouro VARCHAR(100) NOT NULL,
         numero VARCHAR(10) NOT NULL,
         bairro VARCHAR(100) NOT NULL,
@@ -188,16 +188,17 @@ erDiagram
         status ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
 
         PRIMARY KEY (id_equipamento),
-        FOREIGN KEY (id_cliente) REFERENCES clientes (id_cliente)
+        UNIQUE (id_equipamento, id_cliente),
+        FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
     );
 
     CREATE TABLE colaboradores (
         id_colaborador INT AUTO_INCREMENT,
         nome VARCHAR(100) NOT NULL,
         cargo VARCHAR(100) NOT NULL,
-        cpf VARCHAR(11) NOT NULL,
-        email VARCHAR(150) NOT NULL,
-        telefone VARCHAR(16) NOT NULL,
+        cpf VARCHAR(11) NOT NULL UNIQUE,
+        email VARCHAR(150) NOT NULL UNIQUE,
+        telefone VARCHAR(16) NOT NULL UNIQUE,
         logradouro VARCHAR(100) NOT NULL,
         numero VARCHAR(10) NOT NULL,
         bairro VARCHAR(100) NOT NULL,
@@ -207,23 +208,21 @@ erDiagram
         data_de_cadastro DATE DEFAULT (CURRENT_DATE),
 
         PRIMARY KEY (id_colaborador),
-        UNIQUE (email),
-        UNIQUE (cpf)
+        UNIQUE (id_colaborador, email)
     );
 
     CREATE TABLE usuarios (
         id_usuario INT AUTO_INCREMENT,
-        id_colaborador INT NOT NULL,
+        id_colaborador INT NOT NULL UNIQUE,
         login VARCHAR(150) NOT NULL,
         senha TEXT NOT NULL,
         nivel ENUM('administrador', 'atendente', 'tecnico') NOT NULL,
         status ENUM('ativo', 'inativo') DEFAULT 'ativo',
 
         PRIMARY KEY (id_usuario),
-        UNIQUE (id_colaborador),
         UNIQUE (login),
-        FOREIGN KEY (login) REFERENCES colaboradores(email),
-        FOREIGN KEY (id_colaborador) REFERENCES colaboradores(id_colaborador)
+        FOREIGN KEY (id_colaborador, login)
+            REFERENCES colaboradores(id_colaborador, email)
     );
 
     CREATE TABLE ordens_de_servico (
@@ -241,13 +240,20 @@ erDiagram
         valor_estimado DECIMAL(10, 2),
         valor_final DECIMAL(10, 2),
         forma_de_pagamento VARCHAR(50),
-        status ENUM('aberta', 'em_andamento', 'aguardando_peca', 'concluida', 'cancelada') DEFAULT 'aberta',
+        status ENUM(
+            'aberta',
+            'em_andamento',
+            'aguardando_peca',
+            'concluida',
+            'cancelada'
+        ) DEFAULT 'aberta',
         observacoes TEXT,
 
         PRIMARY KEY (id_ordem),
         UNIQUE (numero_da_os),
         FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
-        FOREIGN KEY (id_equipamento) REFERENCES equipamentos(id_equipamento),
+        FOREIGN KEY (id_equipamento, id_cliente)
+            REFERENCES equipamentos(id_equipamento, id_cliente),
         FOREIGN KEY (id_tecnico) REFERENCES colaboradores(id_colaborador)
     );
 
@@ -339,11 +345,3 @@ erDiagram
 - `PK`: chave primária.
 - `FK`: chave estrangeira.
 - `UK`: valor único.
-
-## Stack prevista
-
-- **PHP:** processamento do sistema e comunicação com o banco de dados.
-- **MySQL:** armazenamento dos dados.
-- **HTML:** estrutura das páginas.
-- **CSS:** apresentação visual.
-- **JavaScript:** interações no navegador.

@@ -75,5 +75,3 @@ As principais entidades previstas são:
 Um cliente pode ter vários equipamentos e solicitar várias ordens de serviço. Cada ordem fica vinculada a um cliente e a um equipamento, e registra o técnico responsável. Um colaborador pode ter uma conta de usuário no sistema.
 
 O administrador pode acessar todas as áreas e gerenciar os cadastros e usuários. O atendente pode cuidar dos cadastros e abrir ordens de serviço. O técnico pode consultar as ordens atribuídas a ele e atualizar as informações técnicas e o andamento do serviço.
-
-**Tecnologias previstas:** PHP, JavaScript, HTML, CSS, MySQL e Apache.
