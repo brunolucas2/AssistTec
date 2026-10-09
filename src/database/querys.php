@@ -154,3 +154,40 @@ $equipamentoSQL = [
     WHERE id_equipamento = :id_equipamento
     "
 ];
+
+$colaboradorSQL = [
+        "cadastrarColaborador" => "
+            INSERT INTO colaboradores
+            (
+                nome,
+                cargo,
+                cpf,
+                email,
+                telefone,
+                logradouro,
+                numero,
+                bairro,
+                cidade,
+                estado,
+                cep
+            ) VALUES (
+                :nome,
+                :cargo,
+                :cpf,
+                :email,
+                :telefone,
+                :logradouro,
+                :numero,
+                :bairro,
+                :cidade,
+                :estado,
+                :cep
+            )
+        ",
+        "buscarColaboradores" => "
+            SELECT 
+                id_colaborador,
+                nome,
+                cargo
+        ",
+];

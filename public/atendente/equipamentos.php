@@ -1,10 +1,10 @@
 <?php
+session_start();
+
 $nivelDaPagina = "atendente";
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+verificarNivel($nivelDaPagina);
 
 $mensagem = $_SESSION["flash"] ?? null;
 unset($_SESSION["flash"]);
@@ -15,11 +15,14 @@ unset($_SESSION["flash"]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Equipamentos | AssisTec</title>
-    <link rel="stylesheet" href="../css/atendente.css">
-    <link rel="stylesheet" href="../css/equipamentos.css">
-    <script src="../js/equipamentos.js" defer></script>
-    <script src="../js/nav.js" defer></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/atendente/equipamentos.css">
+
+    <script src="../js/pages/atendente/equipamentos.js" defer></script>
+    <script src="../js/utils/nav.js" defer></script>
 </head>
 
 <body>
@@ -35,7 +38,6 @@ unset($_SESSION["flash"]);
             <a class="link-menu" href="index.php">Visão geral</a>
             <a class="link-menu" href="clientes.php">Clientes</a>
             <a class="link-menu active" href="equipamentos.php">Equipamentos</a>
-            <a class="link-menu" href="ordens.php">Abrir ordem de serviço</a>
             <a class="link-menu" href="atendimentos.php">Atendimentos</a>
         </nav>
 

@@ -1,10 +1,10 @@
 <?php
+session_start();
+
 $nivelDaPagina = "atendente";
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+verificarNivel($nivelDaPagina);
 
 $mensagem = $_SESSION["flash"] ?? null;
 unset($_SESSION["flash"]);
@@ -16,11 +16,15 @@ unset($_SESSION["flash"]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Clientes | AssisTec</title>
-    <link rel="stylesheet" href="../css/atendente.css">
-    <link rel="stylesheet" href="../css/clientes.css">
-    <script src="../js/clientes.js" defer></script>
-    <script src="../js/nav.js" defer></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/atendente/clientes.css">
+
+    <script src="../js/pages/atendente/clientes.js" defer></script>
+    <script src="../js/utils/nav.js" defer></script>
+    <script src="../js/utils/consultarCep.js" defer></script>
 </head>
 
 <body>
@@ -36,7 +40,6 @@ unset($_SESSION["flash"]);
             <a class="link-menu" href="index.php">Visão geral</a>
             <a class="link-menu active" href="clientes.php">Clientes</a>
             <a class="link-menu" href="equipamentos.php">Equipamentos</a>
-            <a class="link-menu" href="ordens.php">Abrir ordem de serviço</a>
             <a class="link-menu" href="atendimentos.php">Atendimentos</a>
         </nav>
 
@@ -152,24 +155,28 @@ unset($_SESSION["flash"]);
                         <label class="campo-form">Telefone
                             <input type="tel" name="telefone" maxlength="16" required>
                         </label>
-                        <label class="campo-form">Logradouro
-                            <input name="logradouro" maxlength="100" required>
+                        <label class="campo-form">CEP
+                            <input id="cep" name="cep" maxlength="8" pattern="[0-9]{8}"
+                                inputmode="numeric" required>
                         </label>
+                        <label class="campo-form">Logradouro
+                            <input name="logradouro" maxlength="100" required readonly>
+                        </label>
+
                         <label class="campo-form">Número
                             <input name="numero" maxlength="10" required>
                         </label>
+
                         <label class="campo-form">Bairro
-                            <input name="bairro" maxlength="100" required>
+                            <input name="bairro" maxlength="100" required readonly>
                         </label>
+
                         <label class="campo-form">Cidade
-                            <input name="cidade" maxlength="100" required>
+                            <input id="cidade" name="cidade" maxlength="100" required readonly>
                         </label>
+
                         <label class="campo-form">Estado
-                            <input name="estado" maxlength="100" required>
-                        </label>
-                        <label class="campo-form">CEP
-                            <input name="cep" maxlength="8" pattern="[0-9]{8}"
-                                inputmode="numeric" required>
+                            <input name="estado" maxlength="100" required readonly>
                         </label>
                     </div>
 

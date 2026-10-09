@@ -1,0 +1,25 @@
+EXERCICIO COMPOSER:
+
+https://docs.google.com/document/d/1RUMQjoDKRsDh2dBgoE0LWTdUGHb800-7J3LVSP_BXYs/edit?usp=sharing
+
+
+<?php
+
+    require __DIR__.'/../vendor/autoload.php';
+
+    use Carbon\Carbon;
+
+    date_default_timezone_set('America/Recife');
+
+    Carbon::setLocale('pt-BR');
+
+    $agora = Carbon::now();
+    echo "Data Atual: ".$agora->isoFormat('LLLL')."<br>";
+
+    $post = Carbon::now()->subHours(0)->subMinutes(15);
+    echo "Publicado : ".$post->diffforHumans()."<br>";
+
+    $idade = Carbon::createFromDate(1991, 8, 20);
+    echo "Sua idade: ".$idade->age ."<br>";
+
+?>  

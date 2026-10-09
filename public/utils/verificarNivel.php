@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 if (
     !isset($_SESSION["usuario"]["email"]) ||
     !isset($_SESSION["usuario"]["nivel"])
@@ -10,7 +8,7 @@ if (
 } 
 $nivel = $_SESSION["usuario"]["nivel"];
 
-function verificarNivel()
+function verificarNivel(string $nivel)
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
@@ -24,7 +22,7 @@ function verificarNivel()
         exit;
     }
 
-    $nivelVerify = $nivelDaPagina ?? null;
+    $nivelVerify = $nivel ?? null;
 
     if ($_SESSION["usuario"]["nivel"] !== $nivelVerify && $_SESSION["usuario"]["nivel"] !== "administrador") {
         http_response_code(403);
