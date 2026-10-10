@@ -9,6 +9,12 @@ verificarNivel($nivelDaPagina);
 $mensagem = $_SESSION["flash"] ?? null;
 unset($_SESSION["flash"]);
 
+$nivel = htmlspecialchars(
+    $_SESSION["usuario"]["nivel"] ?? "atendente",
+    ENT_QUOTES,
+    "UTF-8"
+);
+
 $email = htmlspecialchars(
     $_SESSION["usuario"]["email"] ?? "",
     ENT_QUOTES,
@@ -49,7 +55,7 @@ $email = htmlspecialchars(
         </nav>
 
         <div class="usuario-logado">
-            <span class="usuario-cargo">Atendente</span>
+            <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
             <span class="usuario-email"><?= $email ?></span>
         </div>
     </aside>
