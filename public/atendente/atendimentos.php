@@ -39,37 +39,41 @@ $email = htmlspecialchars(
 </head>
 
 <body>
-<aside class="menu-lateral" id="sidebar">
-    <!-- 1. Marca -->
-    <a class="marca" href="index.php">
-        <span class="marca-icone">AT</span>
-        <span>Assis<span class="marca-azul">Tec</span></span>
-    </a>
+    <aside class="menu-lateral" id="sidebar">
+        <!-- 1. Marca -->
+        <a class="marca" href="index.php">
+            <span class="marca-icone">AT</span>
+            <span>Assis<span class="marca-azul">Tec</span></span>
+        </a>
 
-    <!-- 2. Usuário -->
-    <div class="usuario-logado">
-        <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
-        <span class="usuario-email"><?= $email ?></span>
-    </div>
+        <!-- 2. Usuário -->
+        <div class="usuario-logado">
+            <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
+            <span class="usuario-email"><?= $email ?></span>
+        </div>
 
-    <!-- 3. Menu -->
-    <div class="area-menu">
-        <p class="menu-titulo">MENU</p>
-        <nav class="menu">
-            <a class="link-menu" href="index.php">Visão geral</a>
-            <a class="link-menu" href="clientes.php">Clientes</a>
-            <a class="link-menu" href="equipamentos.php">Equipamentos</a>
-            <a class="link-menu active" href="atendimentos.php">Atendimentos</a>
-        </nav>
-    </div>
+        <!-- 3. Menu -->
+        <div class="area-menu">
+            <p class="menu-titulo">MENU</p>
+            <nav class="menu">
+                <a class="link-menu" href="index.php">Visão geral</a>
+                <a class="link-menu" href="clientes.php">Clientes</a>
+                <a class="link-menu" href="equipamentos.php">Equipamentos</a>
+                <a class="link-menu active" href="atendimentos.php">Atendimentos</a>
+            </nav>
+        </div>
 
-    <!-- 4. Ações -->
-    <div class="acoes-menu">
-        <form action="../utils/logout.php" method="POST">
-            <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
-        </form>
-    </div>
-</aside>
+        <!-- 4. Ações -->
+        <div class="acoes-menu">
+            <?php if ($nivel === "administrador"): ?>
+                <a href="../admin/" class="botao-admin">← Painel Administrativo</a>
+            <?php endif; ?>
+            <br>
+            <form action="../utils/logout.php" method="POST">
+                <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
+            </form>
+        </div>
+    </aside>
 
     <main class="conteudo">
         <header class="cabecalho">
@@ -284,28 +288,94 @@ $email = htmlspecialchars(
             <button class="atendimentos-fechar-modal" id="fechar-modal-atendimento" type="button" aria-label="Fechar">×</button>
         </div>
         <dl class="atendimentos-dados">
-            <div><dt>ID da ordem</dt><dd data-detalhe="id_ordem"></dd></div>
-            <div><dt>Número da OS</dt><dd data-detalhe="numero_da_os"></dd></div>
-            <div><dt>ID do cliente</dt><dd data-detalhe="id_cliente"></dd></div>
-            <div><dt>Cliente</dt><dd data-detalhe="nome_cliente"></dd></div>
-            <div><dt>ID do equipamento</dt><dd data-detalhe="id_equipamento"></dd></div>
-            <div><dt>Tipo do equipamento</dt><dd data-detalhe="tipo_equipamento"></dd></div>
-            <div><dt>Marca</dt><dd data-detalhe="marca_equipamento"></dd></div>
-            <div><dt>Número de série</dt><dd data-detalhe="numero_de_serie"></dd></div>
-            <div><dt>Patrimônio</dt><dd data-detalhe="patrimonio"></dd></div>
-            <div><dt>ID do técnico</dt><dd data-detalhe="id_tecnico"></dd></div>
-            <div><dt>Técnico</dt><dd data-detalhe="nome_tecnico"></dd></div>
-            <div><dt>Data de abertura</dt><dd data-detalhe="data_de_abertura"></dd></div>
-            <div><dt>Data de previsão</dt><dd data-detalhe="data_de_previsao"></dd></div>
-            <div><dt>Problema relatado</dt><dd data-detalhe="problema_relatado"></dd></div>
-            <div><dt>Diagnóstico</dt><dd data-detalhe="diagnostico"></dd></div>
-            <div><dt>Serviço</dt><dd data-detalhe="servico"></dd></div>
-            <div><dt>Prioridade</dt><dd data-detalhe="prioridade"></dd></div>
-            <div><dt>Valor estimado</dt><dd data-detalhe="valor_estimado"></dd></div>
-            <div><dt>Valor final</dt><dd data-detalhe="valor_final"></dd></div>
-            <div><dt>Forma de pagamento</dt><dd data-detalhe="forma_de_pagamento"></dd></div>
-            <div><dt>Status</dt><dd data-detalhe="status"></dd></div>
-            <div><dt>Observações</dt><dd data-detalhe="observacoes"></dd></div>
+            <div>
+                <dt>ID da ordem</dt>
+                <dd data-detalhe="id_ordem"></dd>
+            </div>
+            <div>
+                <dt>Número da OS</dt>
+                <dd data-detalhe="numero_da_os"></dd>
+            </div>
+            <div>
+                <dt>ID do cliente</dt>
+                <dd data-detalhe="id_cliente"></dd>
+            </div>
+            <div>
+                <dt>Cliente</dt>
+                <dd data-detalhe="nome_cliente"></dd>
+            </div>
+            <div>
+                <dt>ID do equipamento</dt>
+                <dd data-detalhe="id_equipamento"></dd>
+            </div>
+            <div>
+                <dt>Tipo do equipamento</dt>
+                <dd data-detalhe="tipo_equipamento"></dd>
+            </div>
+            <div>
+                <dt>Marca</dt>
+                <dd data-detalhe="marca_equipamento"></dd>
+            </div>
+            <div>
+                <dt>Número de série</dt>
+                <dd data-detalhe="numero_de_serie"></dd>
+            </div>
+            <div>
+                <dt>Patrimônio</dt>
+                <dd data-detalhe="patrimonio"></dd>
+            </div>
+            <div>
+                <dt>ID do técnico</dt>
+                <dd data-detalhe="id_tecnico"></dd>
+            </div>
+            <div>
+                <dt>Técnico</dt>
+                <dd data-detalhe="nome_tecnico"></dd>
+            </div>
+            <div>
+                <dt>Data de abertura</dt>
+                <dd data-detalhe="data_de_abertura"></dd>
+            </div>
+            <div>
+                <dt>Data de previsão</dt>
+                <dd data-detalhe="data_de_previsao"></dd>
+            </div>
+            <div>
+                <dt>Problema relatado</dt>
+                <dd data-detalhe="problema_relatado"></dd>
+            </div>
+            <div>
+                <dt>Diagnóstico</dt>
+                <dd data-detalhe="diagnostico"></dd>
+            </div>
+            <div>
+                <dt>Serviço</dt>
+                <dd data-detalhe="servico"></dd>
+            </div>
+            <div>
+                <dt>Prioridade</dt>
+                <dd data-detalhe="prioridade"></dd>
+            </div>
+            <div>
+                <dt>Valor estimado</dt>
+                <dd data-detalhe="valor_estimado"></dd>
+            </div>
+            <div>
+                <dt>Valor final</dt>
+                <dd data-detalhe="valor_final"></dd>
+            </div>
+            <div>
+                <dt>Forma de pagamento</dt>
+                <dd data-detalhe="forma_de_pagamento"></dd>
+            </div>
+            <div>
+                <dt>Status</dt>
+                <dd data-detalhe="status"></dd>
+            </div>
+            <div>
+                <dt>Observações</dt>
+                <dd data-detalhe="observacoes"></dd>
+            </div>
         </dl>
     </dialog>
 </body>

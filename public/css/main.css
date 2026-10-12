@@ -217,3 +217,18 @@ h1 {
         font-size: 24px;
     }
 }
+
+.botao-admin {
+    display: block;
+    padding: 9px 12px;
+    border: 1px solid #2563eb;
+    border-radius: 7px;
+    background: #172a46;
+    color: #93c5fd;
+    font-size: 14px;
+    text-align: center;
+}
+
+.botao-admin:hover {
+    background: #1e3a5f;
+}

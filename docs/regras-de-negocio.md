@@ -34,7 +34,6 @@ Este documento reúne algumas regras que o sistema de assistência técnica deve
 - O sistema deve manter o histórico das alterações feitas nas ordens de serviço.
 - Usuários inativos não podem acessar o sistema.
 
-
 ## Níveis de acesso
 
 - **Administrador:** pode acessar todas as áreas do sistema, gerenciar cadastros e administrar usuários.

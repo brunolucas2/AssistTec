@@ -24,6 +24,7 @@ $email = htmlspecialchars(
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,38 +37,43 @@ $email = htmlspecialchars(
     <script src="../js/utils/nav.js" defer></script>
     <script src="../js/utils/consultarCep.js" defer></script>
 </head>
+
 <body>
-<aside class="menu-lateral" id="sidebar">
-    <!-- 1. Marca -->
-    <a class="marca" href="index.php">
-        <span class="marca-icone">AT</span>
-        <span>Assis<span class="marca-azul">Tec</span></span>
-    </a>
+    <aside class="menu-lateral" id="sidebar">
+        <!-- 1. Marca -->
+        <a class="marca" href="index.php">
+            <span class="marca-icone">AT</span>
+            <span>Assis<span class="marca-azul">Tec</span></span>
+        </a>
 
-    <!-- 2. Usuário -->
-    <div class="usuario-logado">
-        <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
-        <span class="usuario-email"><?= $email ?></span>
-    </div>
+        <!-- 2. Usuário -->
+        <div class="usuario-logado">
+            <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
+            <span class="usuario-email"><?= $email ?></span>
+        </div>
 
-    <!-- 3. Menu -->
-    <div class="area-menu">
-        <p class="menu-titulo">MENU</p>
-        <nav class="menu">
-            <a class="link-menu" href="index.php">Visão geral</a>
-            <a class="link-menu active" href="clientes.php">Clientes</a>
-            <a class="link-menu" href="equipamentos.php">Equipamentos</a>
-            <a class="link-menu" href="atendimentos.php">Atendimentos</a>
-        </nav>
-    </div>
+        <!-- 3. Menu -->
+        <div class="area-menu">
+            <p class="menu-titulo">MENU</p>
+            <nav class="menu">
+                <a class="link-menu" href="index.php">Visão geral</a>
+                <a class="link-menu active" href="clientes.php">Clientes</a>
+                <a class="link-menu" href="equipamentos.php">Equipamentos</a>
+                <a class="link-menu" href="atendimentos.php">Atendimentos</a>
+            </nav>
+        </div>
 
-    <!-- 4. Ações -->
-    <div class="acoes-menu">
-        <form action="../utils/logout.php" method="POST">
-            <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
-        </form>
-    </div>
-</aside>
+        <!-- 4. Ações -->
+        <div class="acoes-menu">
+            <?php if ($nivel === "administrador"): ?>
+                <a href="../admin/" class="botao-admin">← Painel Administrativo</a>
+            <?php endif; ?>
+            <br>
+            <form action="../utils/logout.php" method="POST">
+                <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
+            </form>
+        </div>
+    </aside>
 
     <main class="conteudo">
         <header class="cabecalho">
@@ -282,20 +288,60 @@ $email = htmlspecialchars(
         </div>
 
         <dl class="dados-cliente">
-            <div><dt>ID</dt><dd data-detalhe="id_cliente"></dd></div>
-            <div><dt>Nome</dt><dd data-detalhe="nome"></dd></div>
-            <div><dt>CPF</dt><dd data-detalhe="cpf"></dd></div>
-            <div><dt>E-mail</dt><dd data-detalhe="email"></dd></div>
-            <div><dt>Telefone</dt><dd data-detalhe="telefone"></dd></div>
-            <div><dt>Logradouro</dt><dd data-detalhe="logradouro"></dd></div>
-            <div><dt>Número</dt><dd data-detalhe="numero"></dd></div>
-            <div><dt>Bairro</dt><dd data-detalhe="bairro"></dd></div>
-            <div><dt>Cidade</dt><dd data-detalhe="cidade"></dd></div>
-            <div><dt>Estado</dt><dd data-detalhe="estado"></dd></div>
-            <div><dt>CEP</dt><dd data-detalhe="cep"></dd></div>
-            <div><dt>Data de cadastro</dt><dd data-detalhe="data_de_cadastro"></dd></div>
-            <div><dt>Status</dt><dd data-detalhe="status"></dd></div>
+            <div>
+                <dt>ID</dt>
+                <dd data-detalhe="id_cliente"></dd>
+            </div>
+            <div>
+                <dt>Nome</dt>
+                <dd data-detalhe="nome"></dd>
+            </div>
+            <div>
+                <dt>CPF</dt>
+                <dd data-detalhe="cpf"></dd>
+            </div>
+            <div>
+                <dt>E-mail</dt>
+                <dd data-detalhe="email"></dd>
+            </div>
+            <div>
+                <dt>Telefone</dt>
+                <dd data-detalhe="telefone"></dd>
+            </div>
+            <div>
+                <dt>Logradouro</dt>
+                <dd data-detalhe="logradouro"></dd>
+            </div>
+            <div>
+                <dt>Número</dt>
+                <dd data-detalhe="numero"></dd>
+            </div>
+            <div>
+                <dt>Bairro</dt>
+                <dd data-detalhe="bairro"></dd>
+            </div>
+            <div>
+                <dt>Cidade</dt>
+                <dd data-detalhe="cidade"></dd>
+            </div>
+            <div>
+                <dt>Estado</dt>
+                <dd data-detalhe="estado"></dd>
+            </div>
+            <div>
+                <dt>CEP</dt>
+                <dd data-detalhe="cep"></dd>
+            </div>
+            <div>
+                <dt>Data de cadastro</dt>
+                <dd data-detalhe="data_de_cadastro"></dd>
+            </div>
+            <div>
+                <dt>Status</dt>
+                <dd data-detalhe="status"></dd>
+            </div>
         </dl>
     </dialog>
 </body>
+
 </html>

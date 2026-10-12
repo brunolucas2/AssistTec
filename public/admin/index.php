@@ -1,32 +1,110 @@
 <?php
+session_start();
+
+$nivelDaPagina = "administrador";
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
-verificarNivel("administrador");
+
+verificarNivel($nivelDaPagina);
+
+$mensagem = $_SESSION["flash"] ?? null;
+unset($_SESSION["flash"]);
+
+$nivel = htmlspecialchars(
+    $_SESSION["usuario"]["nivel"] ?? "administrador",
+    ENT_QUOTES,
+    "UTF-8"
+);
+
+$email = htmlspecialchars(
+    $_SESSION["usuario"]["email"] ?? "",
+    ENT_QUOTES,
+    "UTF-8"
+);
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Painel do Administrador | AssisTec</title>
-    <meta name="description" content="Painel interno do administrador no sistema AssisTec.">
     <meta name="robots" content="noindex, nofollow">
-
     <meta name="theme-color" content="#08111f">
     <meta name="color-scheme" content="dark">
 
-    <link rel="stylesheet" href="../css/administrador.css">
+    <title>Painel do Atendente | AssisTec</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/atendente/home.css">
+    <script src="../js/atendente.js" defer></script>
 </head>
+
 <body>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-    </style>
-    <h1>Em desenvolvimento ...</h1>
+    <aside class="menu-lateral" id="sidebar">
+        <!-- 1. Marca -->
+        <a class="marca" href="index.php">
+            <span class="marca-icone">AT</span>
+            <span>Assis<span class="marca-azul">Tec</span></span>
+        </a>
+
+        <!-- 2. Usuário -->
+        <div class="usuario-logado">
+            <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
+            <span class="usuario-email"><?= $email ?></span>
+        </div>
+
+        <!-- 3. Menu -->
+        <div class="area-menu">
+            <p class="menu-titulo">MENU</p>
+            <nav class="menu">
+                <a class="link-menu active" href="index.php">Visão geral</a>
+                <a class="link-menu" href="colaboradores.php">Colaboradores</a>
+                <a class="link-menu" href="../atendente/">Pagina - Atendente</a>
+            </nav>
+        </div>
+
+        <!-- 4. Ações -->
+        <div class="acoes-menu">
+            <form action="../utils/logout.php" method="POST">
+                <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="conteudo">
+        <header class="cabecalho">
+            <button class="abrir-menu" id="menuToggle" type="button"
+                aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+            <div>
+                <p class="subtitulo">AssisTec / Atendente</p>
+                <h1>Visão geral</h1>
+            </div>
+        </header>
+
+        <section class="boas-vindas">
+            <div>
+                <h2>Bem-vindo ao painel</h2>
+                <p>Gerencie clientes, equipamentos e atendimentos.</p>
+            </div>
+            <a class="botao-principal" href="atendimentos.php">Acessar atendimentos</a>
+        </section>
+
+        <section class="atalhos" aria-label="Ações do atendente">
+            <a class="atalho" href="colaboradores.php">
+                <span class="card-tipo">colaboradores</span>
+                <h2>Colaboradores</h2>
+                <p>Manipule os Colaboradores do sistema.</p>
+                <span class="seta">→</span>
+            </a>
+
+            <a class="atalho" href="../atendente/">
+                <span class="card-tipo">Atendente</span>
+                <h2>Atendente</h2>
+                <p>Utilize as funcionalidades do Atendente.</p>
+                <span class="seta">→</span>
+            </a>
+        </section>
+    </main>
 </body>
+
 </html>
