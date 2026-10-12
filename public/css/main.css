@@ -17,6 +17,7 @@ input[type="number"] {
 body {
     min-height: 100vh;
     margin: 0;
+    padding-left: 210px;
     display: flex;
     background: #08111f;
     color: #e5e7eb;
@@ -30,15 +31,21 @@ a {
 
 /* Menu lateral */
 .menu-lateral {
-    width: 250px;
-    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 210px;
+    height: 100vh;
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     background: #0d1829;
     border-right: 1px solid #233451;
 }
 
+/* Marca */
 .marca {
     display: flex;
     align-items: center;
@@ -63,6 +70,28 @@ a {
     color: #60a5fa;
 }
 
+/* Usuário */
+.usuario-logado {
+    margin: 24px 8px 0;
+    padding: 14px 0;
+    display: grid;
+    gap: 6px;
+    border-top: 1px solid #233451;
+    border-bottom: 1px solid #233451;
+}
+
+.usuario-cargo {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.usuario-email {
+    overflow-wrap: anywhere;
+    color: #8290a6;
+    font-size: 12px;
+}
+
+/* Links do menu */
 .menu-titulo,
 .subtitulo {
     color: #8290a6;
@@ -72,7 +101,7 @@ a {
 }
 
 .menu-titulo {
-    margin: 42px 8px 12px;
+    margin: 24px 8px 12px;
 }
 
 .menu {
@@ -93,28 +122,32 @@ a {
     color: #93c5fd;
 }
 
-.usuario-logado {
+/* Ações no rodapé do menu */
+.acoes-menu {
     margin-top: auto;
-    padding: 14px 8px 0;
-    display: grid;
-    gap: 6px;
-    border-top: 1px solid #233451;
+    padding: 20px 8px 0;
 }
 
-.usuario-cargo {
+.botao-sair {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #7f3038;
+    border-radius: 7px;
+    background: #3b1d27;
+    color: #fecaca;
+    font: inherit;
     font-size: 14px;
-    font-weight: bold;
+    cursor: pointer;
 }
 
-.usuario-email {
-    overflow-wrap: anywhere;
-    color: #8290a6;
-    font-size: 12px;
+.botao-sair:hover {
+    background: #57232e;
 }
 
 /* Área principal e cabeçalho */
 .conteudo {
     width: min(100%, 1200px);
+    min-width: 0;
     margin: 0 auto;
     padding: 36px;
 }
@@ -157,12 +190,11 @@ h1 {
 }
 
 @media (max-width: 760px) {
+    body {
+        padding-left: 0;
+    }
+
     .menu-lateral {
-        position: fixed;
-        z-index: 2;
-        top: 0;
-        bottom: 0;
-        left: 0;
         transform: translateX(-100%);
         transition: transform 0.2s;
     }

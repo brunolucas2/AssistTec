@@ -39,12 +39,21 @@ $email = htmlspecialchars(
 </head>
 
 <body>
-    <aside class="menu-lateral" id="sidebar">
-        <a class="marca" href="index.php">
-            <span class="marca-icone">AT</span>
-            <span>Assis<span class="marca-azul">Tec</span></span>
-        </a>
+<aside class="menu-lateral" id="sidebar">
+    <!-- 1. Marca -->
+    <a class="marca" href="index.php">
+        <span class="marca-icone">AT</span>
+        <span>Assis<span class="marca-azul">Tec</span></span>
+    </a>
 
+    <!-- 2. Usuário -->
+    <div class="usuario-logado">
+        <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
+        <span class="usuario-email"><?= $email ?></span>
+    </div>
+
+    <!-- 3. Menu -->
+    <div class="area-menu">
         <p class="menu-titulo">MENU</p>
         <nav class="menu">
             <a class="link-menu" href="index.php">Visão geral</a>
@@ -52,12 +61,15 @@ $email = htmlspecialchars(
             <a class="link-menu" href="equipamentos.php">Equipamentos</a>
             <a class="link-menu active" href="atendimentos.php">Atendimentos</a>
         </nav>
+    </div>
 
-        <div class="usuario-logado">
-            <span class="usuario-cargo"><?= ucfirst($nivel) ?></span>
-            <span class="usuario-email"><?= $email ?></span>
-        </div>
-    </aside>
+    <!-- 4. Ações -->
+    <div class="acoes-menu">
+        <form action="../utils/logout.php" method="POST">
+            <button type="submit" name="sair" class="botao-sair">Sair da conta</button>
+        </form>
+    </div>
+</aside>
 
     <main class="conteudo">
         <header class="cabecalho">
