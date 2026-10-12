@@ -1,8 +1,6 @@
 <?php
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+require_once dirname(__DIR__) . "/session_helper.php";
 
 $paginasPorNivel = [
     "administrador" => "atendente/index.php",

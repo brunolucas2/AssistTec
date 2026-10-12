@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once dirname(__DIR__) . "/session_helper.php";
 
 $user = $_SESSION["usuario"] ?? null;
 

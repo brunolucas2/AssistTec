@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once dirname(__DIR__, 2) . "/session_helper.php";
 
 $nivelDaPagina = "atendente";
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";

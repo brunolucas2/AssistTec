@@ -27,6 +27,8 @@ if ($verificarUsuario === 403) {
     exit("E-mail ou senha incorretos");
 }
 
+require_once dirname(__DIR__, 2) . "/session_helper.php";
+
 $_SESSION["usuario"] = [
     "email" => $_POST["email"],
     "nivel" => $verificarUsuario

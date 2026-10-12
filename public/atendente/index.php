@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once dirname(__DIR__, 2) . "/session_helper.php";
 
 $nivelDaPagina = "atendente";
 require_once dirname(__DIR__) . "/utils/verificarNivel.php";
@@ -35,7 +35,7 @@ $email = htmlspecialchars(
     <title>Painel do Atendente | AssisTec</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/atendente/home.css">
-    <script src="../js/atendente.js" defer></script>
+    <script src="../js/pages/atendente/atendente.js" defer></script>
 </head>
 
 <body>
