@@ -161,9 +161,9 @@ function rota_deletarCliente(): void
 {
     header("Content-Type: application/json; charset=utf-8");
 
-    $cpf = $_POST["cpf"] ?? "";
+    $cpf = $_POST["cpf"] ?? null;
 
-    if ($cpf === "") {
+    if ($cpf === null) {
         http_response_code(400);
         echo json_encode(["erro" => "CPF não informado."], JSON_UNESCAPED_UNICODE);
         exit;
