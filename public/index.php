@@ -3,7 +3,7 @@
 require_once dirname(__DIR__) . "/session_helper.php";
 
 $paginasPorNivel = [
-    "administrador" => "atendente/index.php",
+    "administrador" => "admin/index.php",
     "tecnico" => "tecnico/index.php",
     "atendente" => "atendente/index.php"
 ];
