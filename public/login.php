@@ -7,12 +7,6 @@ if ($user != null) {
     header("Location: index.php");
     exit;
 }
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    require_once dirname(__DIR__) . "/src/routes/authRouter.php";
-    header("Location: index.php");
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <h1>Entrar</h1>
         <p>Acesse sua conta</p>
 
-        <form method="POST">
+        <form action="../src/routes/authRouter.php" method="POST">
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
 

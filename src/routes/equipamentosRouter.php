@@ -5,7 +5,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 
 require_once dirname(__DIR__) . "/controllers/EquipamentosController.php";
-require_once dirname(__DIR__) . "/helper/validarDados.php";
+require_once dirname(__DIR__) . "/utils/validarDados.php";
 
 $equipamentosPage = "../../public/atendente/equipamentos.php";
 $rota = $_GET["rota"] ?? "";

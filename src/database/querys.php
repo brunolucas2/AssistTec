@@ -1,9 +1,13 @@
 <?php
 
 $authSQL = [
-    "auth" => "
-        SELECT senha, nivel FROM usuarios
+    "autenticar" => "
+        SELECT senha FROM usuarios
         WHERE login = :email
+    ",
+    "buscarDados" => "
+        SELECT id_usuario, nivel FROM usuarios
+        WHERE login = :login
     "
 ];
 

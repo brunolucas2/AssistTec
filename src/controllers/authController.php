@@ -3,24 +3,39 @@
 require_once dirname(__DIR__) . "/database/querys.php";
 require_once dirname(__DIR__) . "/database/db_connection.php";
 
-function auth(array $usuario)
+function auth(array $usuario): bool
 {
     global $pdo, $authSQL;
 
-    $stmt = $pdo->prepare($authSQL["auth"]);
+    $stmt = $pdo->prepare($authSQL["autenticar"]);
     $stmt->execute([
         "email" => $usuario["email"]
     ]);
 
     $usuarioBanco = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($usuarioBanco === false) {
-        return 404;
-    }
-
     if (password_verify($usuario["senha"], $usuarioBanco["senha"])) {
-        return $usuarioBanco["nivel"];
+        return true;
     }
 
-    return 401;
+    return false;
+}
+
+function buscarDados(string $email): array|bool
+{
+    global $pdo, $authSQL;
+
+    $stmt = $pdo->prepare($authSQL["buscarDados"]);
+    $stmt->execute([":login" => $email]);
+
+    if ($stmt == false) {
+        return $stmt;
+    }
+
+    $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return [
+        "id" => (int) $dados["id_usuario"],
+        "nivel" => $dados["nivel"]
+    ];
 }
