@@ -18,7 +18,7 @@ $metodosPermitidos = [
     "deletarEquipamento" => "POST"
 ];
 
-if (!isset($metodosPermitidos[$rota])) {
+if (!is_string($rota) || !isset($metodosPermitidos[$rota])) {
     http_response_code(404);
     exit("Rota não encontrada.");
 }

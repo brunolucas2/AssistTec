@@ -24,21 +24,18 @@ $email = htmlspecialchars(
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#08111f">
     <meta name="color-scheme" content="dark">
-
-    <title>Painel do Atendente | AssisTec</title>
+    <title>Colaboradores | AssisTec</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/atendente/home.css">
-    <script src="../js/atendente.js" defer></script>
+    <link rel="stylesheet" href="../css/admin/home.css">
+    <script src="../js/utils/nav.js" defer></script>
 </head>
-
-<body>
+<body class="pagina-admin">
     <aside class="menu-lateral" id="sidebar">
         <a class="marca" href="index.php">
             <span class="marca-icone">AT</span>
@@ -51,11 +48,24 @@ $email = htmlspecialchars(
         </div>
 
         <div class="area-menu">
-            <p class="menu-titulo">MENU</p>
-            <nav class="menu">
-                <a class="link-menu active" href="index.php">Visão geral</a>
+            <p class="menu-titulo">ADMINISTRAÇÃO</p>
+            <nav class="menu" aria-label="Administração">
+                <a class="link-menu active" href="index.php" aria-current="page">Visão geral</a>
                 <a class="link-menu" href="colaboradores.php">Colaboradores</a>
-                <a class="link-menu" href="../atendente/">Pagina - Atendente</a>
+            </nav>
+
+            <p class="menu-titulo">ACESSAR PAINÉIS</p>
+            <nav class="admin-paineis-menu" aria-label="Áreas do sistema">
+                <a class="admin-link-painel" href="../atendente/">
+                    <span class="admin-icone" aria-hidden="true">AT</span>
+                    <span>Atendente<small>Cadastros e atendimento</small></span>
+                    <span class="admin-seta" aria-hidden="true">↗</span>
+                </a>
+                <a class="admin-link-painel" href="../tecnico/">
+                    <span class="admin-icone" aria-hidden="true">TC</span>
+                    <span>Técnico<small>Ordens e manutenção</small></span>
+                    <span class="admin-seta" aria-hidden="true">↗</span>
+                </a>
             </nav>
         </div>
 
@@ -70,37 +80,41 @@ $email = htmlspecialchars(
         <header class="cabecalho">
             <button class="abrir-menu" id="menuToggle" type="button"
                 aria-label="Abrir menu" aria-expanded="false">☰</button>
-
             <div>
-                <p class="subtitulo">AssisTec / Atendente</p>
+                <p class="subtitulo">AssisTec / Administrador</p>
                 <h1>Visão geral</h1>
             </div>
         </header>
 
-        <section class="boas-vindas">
+        <section class="admin-gestao" aria-labelledby="titulo-colaboradores">
             <div>
-                <h2>Bem-vindo ao painel</h2>
-                <p>Gerencie clientes, equipamentos e atendimentos.</p>
+                <p class="subtitulo">GESTÃO DA EQUIPE</p>
+                <h2 id="titulo-colaboradores">Colaboradores</h2>
+                <p>Consulte, cadastre e atualize os colaboradores da assistência.</p>
             </div>
-            <a class="botao-principal" href="atendimentos.php">Acessar atendimentos</a>
+            <a class="admin-botao" href="colaboradores.php">Gerenciar colaboradores</a>
         </section>
 
-        <section class="atalhos" aria-label="Ações do atendente">
-            <a class="atalho" href="colaboradores.php">
-                <span class="card-tipo">colaboradores</span>
-                <h2>Colaboradores</h2>
-                <p>Manipule os Colaboradores do sistema.</p>
-                <span class="seta">→</span>
-            </a>
-
-            <a class="atalho" href="../atendente/">
-                <span class="card-tipo">Atendente</span>
-                <h2>Atendente</h2>
-                <p>Utilize as funcionalidades do Atendente.</p>
-                <span class="seta">→</span>
-            </a>
+        <section class="admin-areas" aria-labelledby="titulo-paineis">
+            <div class="admin-titulo-secao">
+                <h2 id="titulo-paineis">Painéis do sistema</h2>
+                <p>Acesse a área que deseja utilizar.</p>
+            </div>
+            <div class="admin-grade">
+                <a class="admin-card" href="../atendente/">
+                    <span class="admin-icone" aria-hidden="true">AT</span>
+                    <h3>Atendente</h3>
+                    <p>Gerencie clientes, equipamentos e ordens de serviço.</p>
+                    <span class="admin-card-link">Acessar painel <span aria-hidden="true">→</span></span>
+                </a>
+                <a class="admin-card" href="../tecnico/">
+                    <span class="admin-icone" aria-hidden="true">TC</span>
+                    <h3>Técnico</h3>
+                    <p>Acompanhe as ordens e os serviços de manutenção.</p>
+                    <span class="admin-card-link">Acessar painel <span aria-hidden="true">→</span></span>
+                </a>
+            </div>
         </section>
     </main>
 </body>
-
 </html>

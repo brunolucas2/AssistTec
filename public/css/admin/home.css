@@ -1,0 +1,147 @@
+.admin-paineis-menu {
+    display: grid;
+    gap: 8px;
+}
+
+.admin-link-painel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px;
+    border: 1px solid #233451;
+    border-radius: 8px;
+    background: #111c30;
+    font-size: 13px;
+}
+
+.admin-link-painel small {
+    display: block;
+    margin-top: 5px;
+    color: #8290a6;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.admin-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #172a46;
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.admin-seta {
+    margin-left: auto;
+    color: #60a5fa;
+}
+
+.admin-gestao,
+.admin-card {
+    padding: 24px;
+    border: 1px solid #233451;
+    border-radius: 12px;
+    background: #111c30;
+}
+
+.admin-gestao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.admin-gestao h2,
+.admin-titulo-secao h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.admin-gestao p:not(.subtitulo),
+.admin-titulo-secao p,
+.admin-card p {
+    margin-bottom: 0;
+    color: #9ca3af;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.admin-botao {
+    flex-shrink: 0;
+    padding: 11px 16px;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 14px;
+}
+
+.admin-botao:hover {
+    background: #1d4ed8;
+}
+
+.admin-areas {
+    margin-top: 32px;
+}
+
+.admin-titulo-secao {
+    margin-bottom: 16px;
+}
+
+.admin-grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.admin-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.admin-card h3 {
+    margin: 16px 0 8px;
+    font-size: 18px;
+}
+
+.admin-card-link {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 24px;
+    color: #60a5fa;
+    font-size: 14px;
+}
+
+.admin-link-painel:hover,
+.admin-card:hover {
+    border-color: #3b82f6;
+}
+
+.pagina-admin a:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+    .admin-gestao {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 520px) {
+    .admin-grade {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-gestao,
+    .admin-card {
+        padding: 20px;
+    }
+}
